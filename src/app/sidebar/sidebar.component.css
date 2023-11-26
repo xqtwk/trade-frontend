@@ -1,0 +1,28 @@
+.sidebar {
+  height: calc(100vh - 71px);
+}
+.sidebar a {
+  transition: background 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--gray);
+}
+a {
+  margin: 3px;
+}
+.line {
+  color: var(--light);
+  border-top: 1px solid var(--gray);
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.footer a, span {
+  margin-right: 6px;
+  margin-top: 6px;
+  display: inline-block;
+  font-size: 10px;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
