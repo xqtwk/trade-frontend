@@ -1,12 +1,14 @@
 import {Routes} from '@angular/router';
-import {MainComponent} from "./main/main.component";
-import {PurchasesComponent} from "./purchases/purchases.component";
-import {SalesComponent} from "./sales/sales.component";
-import {GoodsComponent} from "./goods/goods.component";
-import {CatalogComponent} from "./catalog/catalog.component";
-import {MessagesComponent} from "./messages/messages.component";
-import {ProfileComponent} from "./profile/profile.component";
-import {ProfileSettingsComponent} from "./profileSettings/profileSettings.component";
+import {MainComponent} from "./components/main/main.component";
+import {PurchasesComponent} from "./components/purchases/purchases.component";
+import {SalesComponent} from "./components/sales/sales.component";
+import {GoodsComponent} from "./components/goods/goods.component";
+import {CatalogComponent} from "./components/catalog/catalog.component";
+import {MessagesComponent} from "./components/messages/messages.component";
+import {ProfileComponent} from "./components/profile/profile.component";
+import {ProfileSettingsComponent} from "./components/profileSettings/profileSettings.component";
+import {RegistrationComponent} from "./components/registration/registration.component";
+import {LoginComponent} from "./components/login/login.component";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
@@ -16,5 +18,7 @@ export const routes: Routes = [
   {path: 'catalog', component: CatalogComponent},
   {path: 'messages', component: MessagesComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'profile/settings', component: ProfileSettingsComponent}
+  {path: 'profile/settings', component: ProfileSettingsComponent},
+  {path: 'register', component: RegistrationComponent},
+  {path: 'login', component: LoginComponent}
 ];
