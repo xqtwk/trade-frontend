@@ -28,7 +28,7 @@
       <!-- Dropdown Menu -->
       <div [class.hidden]="!dropdownOpen"
            class="dropdown-menu w-full max-w-screen absolute border border-border bg-dark rounded overflow-auto"
-           [class.hidden]="!dropdownOpen" (click)="toggleDropdown()">
+           (click)="toggleDropdown()">
         <nav class="flex flex-col break-words">
           <a routerLink="profile" class="dropdown-profile flex flex-row items-center hover:bg-border p-2">
             <div class="avatar flex-shrink-0">
