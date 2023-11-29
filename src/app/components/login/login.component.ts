@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import {AuthenticationRequest} from "../../models/authentication-request";
 import {AuthenticationResponse} from "../../models/authentication-response";
 import {AuthenticationService} from "../../services/authentication.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {VerificationRequest} from "../../models/verification-request";
 import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -33,7 +33,7 @@ export class LoginComponent {
             this.authResponse = response;
             if (!this.authResponse.mfaEnabled) {
               localStorage.setItem('token', response.accessToken as string);
-              this.router.navigate(['welcome']);
+              this.router.navigate(['']);
             }
           }
         });
@@ -48,7 +48,7 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             localStorage.setItem('token', response.accessToken as string);
-            this.router.navigate(['welcome']);
+            this.router.navigate(['']);
           }
         });
   }

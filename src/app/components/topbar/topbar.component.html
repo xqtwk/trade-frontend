@@ -3,18 +3,22 @@
   <div class="top-left border-r border-border p-1 w-240px flex items-center justify-center text-light">
     <a routerLink="/">ETurgus</a>
   </div>
-  <div class="top-right p-1 flex flex-row items-center justify-center space-x-4 pr-3">
-    <div class="notifications rounded">
+  <div class="top-right p-1 flex flex-row items-center justify-center space-x-4 pr-3 ">
+    <div class="notifications rounded" *ngIf="authService.isAuthenticatedObservable | async">
       <div class="nt-icon"></div>
       <div>Pranešimai</div>
     </div>
-    <div class="balance flex flex-row items-center justify-center space-x-1 rounded">
+    <div class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
       <div class="wallet"></div>
       <div class="money text-light">111</div>
       <div class="icon text-light">EU</div>
     </div>
 
-    <div class="profile relative">
+    <div *ngIf ="!(authService.isAuthenticatedObservable | async)">
+      <a routerLink="login">Prisijungti</a>
+    </div>
+
+    <div class="profile relative" *ngIf="authService.isAuthenticatedObservable | async">
       <!-- Dropdown Trigger -->
       <div (click)="toggleDropdown()" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
            class="flex flex-row items-center justify-center space-x-2 cursor-pointer text-white
@@ -45,7 +49,7 @@
           </a>
           <div class="line border-t border-border my-1 mx-3"></div>
           <a class="hover:bg-border px-2">
-            <p class="ml-3 my-1.5">Atsijungti</p>
+            <button class="ml-3 my-1.5" (click)="onLogout()">Atsijungti</button>
           </a>
         </nav>
       </div>
