@@ -33,7 +33,7 @@ export class LoginComponent {
             this.authResponse = response;
             if (!this.authResponse.mfaEnabled) {
               localStorage.setItem('token', response.accessToken as string);
-              this.router.navigate(['welcome']);
+              this.router.navigate(['catalog']);
             }
           }
         });
@@ -48,7 +48,7 @@ export class LoginComponent {
         .subscribe({
           next: (response) => {
             localStorage.setItem('token', response.accessToken as string);
-            this.router.navigate(['welcome']);
+            this.router.navigate(['catalog']);
           }
         });
   }
