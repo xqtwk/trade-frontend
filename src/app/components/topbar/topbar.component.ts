@@ -1,6 +1,8 @@
 import {Component, HostListener, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {AuthenticationService} from "../../services/authentication.service";
+import {authGuard} from "../../services/auth/auth.guard";
 
 @Component({
   selector: 'app-topbar',
@@ -12,7 +14,12 @@ import {RouterLink} from "@angular/router";
 export class TopbarComponent {
   dropdownOpen = false;
 
-  constructor(private eRef: ElementRef) {}
+  constructor(private eRef: ElementRef,
+              public authService: AuthenticationService,
+              private router: Router) {
+
+  }
+
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
@@ -24,4 +31,12 @@ export class TopbarComponent {
       this.dropdownOpen = false;
     }
   }
+
+  onLogout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['']);
+    });
+  }
+
+  protected readonly authGuard = authGuard;
 }
