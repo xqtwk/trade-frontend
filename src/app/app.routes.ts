@@ -9,16 +9,17 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {ProfileSettingsComponent} from "./components/profileSettings/profileSettings.component";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {LoginComponent} from "./components/login/login.component";
+import {authGuard} from "./services/auth/auth.guard";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
-  {path: 'orders/purchases', component: PurchasesComponent},
-  {path: 'orders/sales', component: SalesComponent},
-  {path: 'goods', component: GoodsComponent},
-  {path: 'catalog', component: CatalogComponent},
-  {path: 'messages', component: MessagesComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'profile/settings', component: ProfileSettingsComponent},
+  {path: 'orders/purchases', component: PurchasesComponent, canActivate: [authGuard]},
+  {path: 'orders/sales', component: SalesComponent, canActivate: [authGuard]},
+  {path: 'goods', component: GoodsComponent, canActivate: [authGuard]},
+  {path: 'catalog', component: CatalogComponent, canActivate: [authGuard]},
+  {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+  {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
   {path: 'register', component: RegistrationComponent},
   {path: 'login', component: LoginComponent}
 ];
