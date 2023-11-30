@@ -8,11 +8,11 @@
       <div class="nt-icon"></div>
       <div>Pranešimai</div>
     </div>
-    <div class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
-      <div class="wallet"></div>
+    <a routerLink="balance" class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
+      <div class="balance"></div>
       <div class="money text-light">111</div>
       <div class="icon text-light">EU</div>
-    </div>
+    </a>
 
     <div *ngIf ="!(authService.isAuthenticatedObservable | async)">
       <a routerLink="login">Prisijungti</a>

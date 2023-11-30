@@ -36,10 +36,10 @@ export class RegistrationComponent {
           if (response) {
             this.authResponse = response;
           } else {
-            this.message = 'Account created successfully\nYou will be redirected to the Login page in 3 seconds';
-            setTimeout(() => {
-              this.router.navigate(['login']);
-            }, 3000)
+            //this.message = 'Account created successfully\nYou will be redirected to the Login page in 3 seconds';
+            //setTimeout(() => {
+              this.router.navigate(['']);
+           // }, 1000)
           }
         }
       });
