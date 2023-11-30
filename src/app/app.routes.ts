@@ -10,6 +10,7 @@ import {ProfileSettingsComponent} from "./components/profileSettings/profileSett
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {LoginComponent} from "./components/login/login.component";
 import {authGuard} from "./services/auth/auth.guard";
+import {unauthGuard} from "./services/auth/unauth.guard";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
@@ -20,6 +21,6 @@ export const routes: Routes = [
   {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
-  {path: 'register', component: RegistrationComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'register', component: RegistrationComponent, canActivate: [unauthGuard]},
+  {path: 'login', component: LoginComponent, canActivate: [unauthGuard]}
 ];
