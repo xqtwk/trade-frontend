@@ -2,7 +2,7 @@ import {Component, HostListener, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterLink} from "@angular/router";
 import {AuthenticationService} from "../../services/authentication.service";
-import {authGuard} from "../../services/auth/auth.guard";
+import {authGuard} from "../../services/guard/auth.guard";
 
 @Component({
   selector: 'app-topbar',
