@@ -12,6 +12,8 @@ module.exports = {
       dark: 'rgb(26,27,33)',
       border: 'rgb(43,45,60)',
       gray: 'rgb(138, 143, 160)',
+      text: 'rgb(149, 153, 180)',
+      field: 'rgb(32, 33, 43)'
     },
     extend: {
       width: {
