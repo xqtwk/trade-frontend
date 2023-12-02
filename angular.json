@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -60,8 +61,14 @@
               "buildTarget": "trade-frontend:build:production"
             },
             "development": {
-              "buildTarget": "trade-frontend:build:development"
+              "buildTarget": "trade-frontend:build:development",
             }
+          },
+          "options": {
+            "buildTarget": "trade-frontend:build",
+            "ssl": true,
+            "sslKey": "src/assets/yourdomain.key",
+            "sslCert": "src/assets/yourdomain.crt"
           },
           "defaultConfiguration": "development"
         },
