@@ -1,4 +1,4 @@
-<div class="topbar font-sans text-light box-border w-full min-h-[71px] flex items-stretch
+<header class="topbar font-sans text-light box-border w-full min-h-[71px] flex items-stretch
  justify-between duration-200 border-b border-border bg-dark fixed top-0 left-0 right-0 z-10">
   <div class="top-left border-r border-border p-1 w-240px flex items-center justify-center text-light">
     <a routerLink="/">ETurgus</a>
@@ -8,11 +8,11 @@
       <div class="nt-icon"></div>
       <div>Pranešimai</div>
     </div>
-    <div class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
-      <div class="wallet"></div>
+    <a routerLink="balance" class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
+      <div class="balance"></div>
       <div class="money text-light">111</div>
       <div class="icon text-light">EU</div>
-    </div>
+    </a>
 
     <div *ngIf ="!(authService.isAuthenticatedObservable | async)">
       <a routerLink="login">Prisijungti</a>
@@ -59,4 +59,4 @@
 
   </div>
 
-</div>
+</header>

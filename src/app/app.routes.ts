@@ -6,13 +6,16 @@ import {GoodsComponent} from "./components/goods/goods.component";
 import {CatalogComponent} from "./components/catalog/catalog.component";
 import {MessagesComponent} from "./components/messages/messages.component";
 import {ProfileComponent} from "./components/profile/profile.component";
-import {ProfileSettingsComponent} from "./components/profileSettings/profileSettings.component";
+import {ProfileSettingsComponent} from "./components/profile/profileSettings/profileSettings.component";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {LoginComponent} from "./components/login/login.component";
-import {authGuard} from "./services/auth/auth.guard";
+import {authGuard} from "./services/guard/auth.guard";
+import {unauthGuard} from "./services/guard/unauth.guard";
+import {BalanceComponent} from "./components/balance/balance.component";
+import {httpsGuard} from "./services/guard/https.guard";
 
 export const routes: Routes = [
-  {path: '', component: MainComponent},
+  {path: '', component: MainComponent, canActivate: [httpsGuard]},
   {path: 'orders/purchases', component: PurchasesComponent, canActivate: [authGuard]},
   {path: 'orders/sales', component: SalesComponent, canActivate: [authGuard]},
   {path: 'goods', component: GoodsComponent, canActivate: [authGuard]},
@@ -20,6 +23,7 @@ export const routes: Routes = [
   {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
-  {path: 'register', component: RegistrationComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'register', component: RegistrationComponent, canActivate: [unauthGuard]},
+  {path: 'login', component: LoginComponent, canActivate: [unauthGuard]},
+  {path: 'balance', component: BalanceComponent, canActivate: [authGuard]}
 ];

@@ -1,0 +1,10 @@
+<form [formGroup]="paymentForm">
+
+  <ngx-stripe-card
+    [options]="cardOptions"
+    [elementsOptions]="elementsOptions"></ngx-stripe-card>
+
+  <input formControlName="cardholderName">
+  <button (click)="pay()">Pay</button>
+
+</form>
