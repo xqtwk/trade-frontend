@@ -8,12 +8,30 @@
   --darker: rgb(22, 23, 28);
   --red: rgba(231, 76, 60, 0.4);
   --text: rgb(149, 153, 180);
+  --darkerused: rgb(37,38,46);
 }
 * {
   color: var(--text);
 }
+.mat-mdc-dialog-container, .mdc-dialog__surface, .mat-mdc-dialog-container, .mdc-dialog__surface
+{
+  background-color: var(--dark) !important;
+  border-radius: 0.25rem;
+}
+.mat-mdc-button {
+  --mdc-text-button-label-text-color: var(--light);
+   --mdc-text-button-disabled-label-text-color:var(--light);
+  --mat-text-button-state-layer-color: var(--dark);
+  --mat-text-button-ripple-color: var(--darkerused);
+}
+.mat-mdc-button, mdc-button__label{
+background-color: var(--darker) !important;
+}
 
 body {
-  margin: 0;
-  background-color: var(--darker);
+margin: 0;
+background-color: var(--darker);
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
