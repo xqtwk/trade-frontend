@@ -7,7 +7,7 @@ import {publishableKey} from "../../../assets/publishableKey";
   providedIn: 'root'
 })
 export class StripeService {
-  private baseUrl = 'http://localhost:8080/pay';
+  private baseUrl = 'https://localhost:8080/pay';
   private publishableKey = publishableKey.publishableKey;
   constructor(private http: HttpClient) { }
 
