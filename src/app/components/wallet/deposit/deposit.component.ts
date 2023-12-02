@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {StripeService} from "../../services/stripe/stripe.service";
+import {StripeService} from "../../../services/stripe/stripe.service";
 import {StripeCardElementOptions, StripeElementsOptions} from "@stripe/stripe-js";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxStripeModule, StripeCardComponent, StripeService as AngularStripeService} from 'ngx-stripe';
@@ -9,10 +9,10 @@ import {NgxStripeModule, StripeCardComponent, StripeService as AngularStripeServ
   selector: 'app-balance',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, StripeCardComponent, FormsModule],
-  templateUrl: './balance.component.html',
+  templateUrl: './deposit.component.html',
   styleUrl: './balance.component.css'
 })
-export class BalanceComponent implements AfterViewInit{
+export class DepositComponent implements AfterViewInit{
   @ViewChild(StripeCardComponent) card!: StripeCardComponent;
 
   paymentForm = new FormGroup({
