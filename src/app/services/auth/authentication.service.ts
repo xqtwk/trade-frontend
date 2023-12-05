@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {RegisterRequest} from "../models/registration-request";
-import {AuthenticationRequest} from "../models/authentication-request";
-import {AuthenticationResponse} from "../models/authentication-response";
-import {VerificationRequest} from "../models/verification-request";
+import {RegisterRequest} from "../../models/registration-request";
+import {AuthenticationRequest} from "../../models/authentication-request";
+import {AuthenticationResponse} from "../../models/authentication-response";
+import {VerificationRequest} from "../../models/verification-request";
 import {BehaviorSubject, Observable, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private baseUrl = 'http://localhost:8080/auth';
+  private baseUrl = 'https://localhost:8080/auth';
   private isAuthenticated = new BehaviorSubject<boolean>(this.checkToken());
 
 
@@ -20,6 +20,8 @@ export class AuthenticationService {
   private checkToken(): boolean {
     return !!localStorage.getItem('token');
   }
+
+
 
   register(
     registerRequest: RegisterRequest

@@ -1,10 +1,15 @@
-<form [formGroup]="paymentForm">
+<mat-dialog-content>
+  <form [formGroup]="paymentForm">
 
-  <ngx-stripe-card
-    [options]="cardOptions"
-    [elementsOptions]="elementsOptions"></ngx-stripe-card>
+    <ngx-stripe-card
+      [options]="cardOptions"
+      [elementsOptions]="elementsOptions"></ngx-stripe-card>
 
-  <input formControlName="cardholderName">
-  <button (click)="pay()">Pay</button>
+    <input formControlName="cardholderName">
+    <mat-dialog-actions>
+      <button (click)="pay()">Pay</button>
+    </mat-dialog-actions>
 
-</form>
+  </form>
+</mat-dialog-content>
+

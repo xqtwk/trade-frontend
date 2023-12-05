@@ -11,8 +11,9 @@ import {RegistrationComponent} from "./components/registration/registration.comp
 import {LoginComponent} from "./components/login/login.component";
 import {authGuard} from "./services/guard/auth.guard";
 import {unauthGuard} from "./services/guard/unauth.guard";
-import {BalanceComponent} from "./components/balance/balance.component";
+import {DepositComponent} from "./components/wallet/deposit/deposit.component";
 import {httpsGuard} from "./services/guard/https.guard";
+import {WalletComponent} from "./components/wallet/wallet.component";
 
 export const routes: Routes = [
   {path: '', component: MainComponent, canActivate: [httpsGuard]},
@@ -21,9 +22,9 @@ export const routes: Routes = [
   {path: 'goods', component: GoodsComponent, canActivate: [authGuard]},
   {path: 'catalog', component: CatalogComponent, canActivate: [authGuard]},
   {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+  {path: 'profile/:username', component: ProfileComponent},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
   {path: 'register', component: RegistrationComponent, canActivate: [unauthGuard]},
   {path: 'login', component: LoginComponent, canActivate: [unauthGuard]},
-  {path: 'balance', component: BalanceComponent, canActivate: [authGuard]}
+  {path: 'wallet', component: WalletComponent, canActivate: [authGuard]}
 ];

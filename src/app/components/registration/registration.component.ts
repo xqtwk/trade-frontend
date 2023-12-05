@@ -4,7 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {RegisterRequest} from "../../models/registration-request";
 import {AuthenticationResponse} from "../../models/authentication-response";
 import {Router, RouterLink} from "@angular/router";
-import {AuthenticationService} from "../../services/authentication.service";
+import {AuthenticationService} from "../../services/auth/authentication.service";
 import {VerificationRequest} from "../../models/verification-request";
 import {HttpClientModule} from "@angular/common/http";
 

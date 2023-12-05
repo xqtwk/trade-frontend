@@ -1,31 +1,53 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {publishableKey} from "../../../assets/publishableKey";
+import {WithdrawRequest} from "../../models/withdraw-request";
+import {DepositRequest} from "../../models/deposit-request";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StripeService {
-  private baseUrl = 'https://localhost:8080/pay';
-  private publishableKey = publishableKey.publishableKey;
-  constructor(private http: HttpClient) { }
+    private baseUrl = 'https://localhost:8080/pay';
+    private publishableKey = publishableKey.publishableKey;
 
-  getPublishableKey() {
-    return this.publishableKey;
-  }
-  topUpBalance(amount: number, userId: string, tokenId: string) {
-    const paymentRequest = {
-      amount: amount,
-      userId: userId,
-      tokenId: tokenId
-    };
-    return this.http.post(`${this.baseUrl}/top-up`, paymentRequest, { responseType: 'text' }) as Observable<string>;
+    constructor(private http: HttpClient) {
+    }
+
+    getPublishableKey() {
+        return this.publishableKey;
+    }
+
+    topUpBalance(amount: number, userId: string, tokenId: string) {
+        const paymentRequest: DepositRequest = {
+            amount: amount,
+            userId: userId,
+            tokenId: tokenId
+        };
+
+        return this.http.post(`${this.baseUrl}/top-up`, paymentRequest, {responseType: 'text'}) as Observable<string>;
 
 
-  }
+    }
 
-  payout(amount: number, userId: string) {
-    return this.http.post(`${this.baseUrl}/payout`, { amount, userId });
-  }
+    transfer(amount: number, connectedAccountId: string, userId: string, tokenId: string): Observable<string> {
+        const transferRequest: WithdrawRequest = {
+            amount,
+            connectedAccountId,
+            userId,
+            tokenId
+        };
+        return this.http.post<string>(`${this.baseUrl}/transfer`, transferRequest, );
+    }
+
+    createCustomer(user: any): Observable<any> {
+        //return this.http.post(`${this.baseUrl}/customer`, user);
+        return this.http.post<any>(`${this.baseUrl}/customer`, user);
+    }
+
+    addPaymentMethod(customerId: string, paymentMethodId: string): Observable<any> {
+        return this.http.post(`${this.baseUrl}/customer/${customerId}/payment-method`, {paymentMethodId}, { responseType: 'text' as 'json' });
+
+    }
 }

@@ -5,7 +5,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class ProfileService {
-  private baseUrl = 'http://localhost:8080/profile';
+  private baseUrl = 'https://localhost:8080/profile';
   constructor(private http: HttpClient) { }
   getProfileInfo(userId: string) {
     return this.http.get(`${this.baseUrl}/${userId}`);

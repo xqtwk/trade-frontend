@@ -4,13 +4,14 @@ import {StripeService} from "../../../services/stripe/stripe.service";
 import {StripeCardElementOptions, StripeElementsOptions} from "@stripe/stripe-js";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgxStripeModule, StripeCardComponent, StripeService as AngularStripeService} from 'ngx-stripe';
+import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-balance',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, StripeCardComponent, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, StripeCardComponent, FormsModule, MatDialogActions, MatDialogContent],
   templateUrl: './deposit.component.html',
-  styleUrl: './balance.component.css'
+  styleUrl: './deposit.component.css'
 })
 export class DepositComponent implements AfterViewInit{
   @ViewChild(StripeCardComponent) card!: StripeCardComponent;
@@ -73,8 +74,8 @@ export class DepositComponent implements AfterViewInit{
   }
 
   private sendTokenToBackend(token: string): void {
-    const amount = 10; // Replace with the actual amount
-    const userId = '52'; // Replace with the actual user ID
+    const amount = 1000; // Replace with the actual amount
+    const userId = '1'; // Replace with the actual user ID
 
     this.stripeService.topUpBalance(amount, userId, token).subscribe(
       response => {

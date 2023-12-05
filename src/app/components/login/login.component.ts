@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AuthenticationRequest} from "../../models/authentication-request";
 import {AuthenticationResponse} from "../../models/authentication-response";
-import {AuthenticationService} from "../../services/authentication.service";
+import {AuthenticationService} from "../../services/auth/authentication.service";
 import {Router, RouterLink} from "@angular/router";
 import {VerificationRequest} from "../../models/verification-request";
 import {FormsModule} from "@angular/forms";
