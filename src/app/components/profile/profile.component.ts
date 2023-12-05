@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ProfileService} from "../../services/profile.service";
+import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-profile',
@@ -10,20 +12,14 @@ import {ProfileService} from "../../services/profile.service";
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
-  userProfile: any;
+  username: string | null | undefined;
 
-  constructor(private profileService: ProfileService) {
-  }
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
-  ngOnInit() {
-    const userId = '52'; // Replace with the actual user ID
-    this.profileService.getProfileInfo(userId).subscribe(
-      data => {
-        this.userProfile = data;
-      },
-      error => {
-        console.error('There was an error!', error);
-      }
-    );
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.username = params.get('username');
+      // Now you can use this.username to fetch user data from the backend
+    });
   }
 }
