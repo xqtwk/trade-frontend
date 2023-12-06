@@ -10,7 +10,7 @@
     </div>
     <a routerLink="wallet" class="balance flex flex-row items-center justify-center space-x-1 rounded" *ngIf="authService.isAuthenticatedObservable | async">
       <div class="balance"></div>
-      <div class="money text-light">111</div>
+      <div class="money text-light">{{balance}}</div>
       <div class="icon text-light">EU</div>
     </a>
 
@@ -23,7 +23,7 @@
       <div (click)="toggleDropdown()" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
            class="flex flex-row items-center justify-center space-x-2 cursor-pointer text-white
            bg-blue-700 hover:bg-blue-800 focus:ring-4 px-8 ">
-        <div class="nickname"><span class="text-light">wwwwr</span></div>
+        <div class="nickname"><span class="text-light">{{username}}</span></div>
         <div class="avatar">
           <span class="avatar-pic"></span>
         </div>
@@ -34,12 +34,12 @@
            class="dropdown-menu w-full max-w-screen absolute border border-border bg-dark rounded overflow-auto"
            (click)="toggleDropdown()">
         <nav class="flex flex-col break-words">
-          <a routerLink="profile" class="dropdown-profile flex flex-row items-center hover:bg-border p-2">
+          <a [routerLink]="['/profile', username]" class="dropdown-profile flex flex-row items-center hover:bg-border p-2">
             <div class="avatar flex-shrink-0">
               <span class="avatar-pic"></span>
             </div>
             <div class=" flex flex-col w-full text-sm">
-              <span class="nickname text-light break-all">wwwwwr</span>
+              <span class="nickname text-light break-all">{{username}}</span>
               <span>Mano profilis</span>
             </div>
           </a>

@@ -29,21 +29,21 @@ export class RegistrationComponent {
   }
 
   registerUser() {
-    this.message = '';
-    this.authService.register(this.registerRequest)
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authResponse = response;
-          } else {
-            //this.message = 'Account created successfully\nYou will be redirected to the Login page in 3 seconds';
-            //setTimeout(() => {
-              this.router.navigate(['']);
-           // }, 1000)
-          }
+    this.authService.register(this.registerRequest).subscribe({
+      next: (response) => {
+        if (response.accessToken && !response.mfaEnabled) {
+          localStorage.setItem('token', response.accessToken);
+          // Notify the application that the user is authenticated
+          this.authService.setAuthenticated(true);
+          this.router.navigate(['']); // Navigate to home page or dashboard
+        } else if (response.mfaEnabled) {
+          this.authResponse = response;
         }
-      });
-
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
   verifyTfa() {

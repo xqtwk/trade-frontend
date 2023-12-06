@@ -22,8 +22,8 @@ export const routes: Routes = [
   {path: 'goods', component: GoodsComponent, canActivate: [authGuard]},
   {path: 'catalog', component: CatalogComponent, canActivate: [authGuard]},
   {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
-  {path: 'profile/:username', component: ProfileComponent},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
+  {path: 'profile/:username', component: ProfileComponent},
   {path: 'register', component: RegistrationComponent, canActivate: [unauthGuard]},
   {path: 'login', component: LoginComponent, canActivate: [unauthGuard]},
   {path: 'wallet', component: WalletComponent, canActivate: [authGuard]}

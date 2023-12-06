@@ -13,6 +13,13 @@
         Slaptažodis
         <button mat-button (click)="openChangePasswordDialog()">Keisti</button>
       </div>
+      <div>
+        Dviejų faktorių autentifikacija
+        <button mat-button (click)="openMfaToggleDialog()" *ngIf="mfaEnabled; else mfaDisabled">Išjungti</button>
+        <ng-template #mfaDisabled >
+          <button mat-button (click)="openMfaToggleDialog()">Įjungti</button>
+        </ng-template>
+      </div>
     </div>
     <div>
       <ul>
