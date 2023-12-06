@@ -1,10 +1,10 @@
 import {Component, HostListener, ElementRef, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterLink} from "@angular/router";
-import {AuthenticationService} from "../../services/auth/authentication.service";
-import {authGuard} from "../../services/guard/auth.guard";
-import {UserService} from "../../services/user/user.service";
-import {UserPrivateDataResponse} from "../../models/user-private-data-response";
+import {AuthenticationService} from "../../../services/auth/authentication.service";
+import {authGuard} from "../../../services/guard/auth.guard";
+import {UserService} from "../../../services/user/user.service";
+import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {Subscription} from "rxjs";
 
 @Component({
