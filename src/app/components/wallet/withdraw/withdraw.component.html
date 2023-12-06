@@ -1,4 +1,24 @@
 <mat-dialog-content>
+  <div>
+    <p>Kad suteikti jums pardavėjo teises, mums reikalinga informacija apie jus.</p>
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="flex flex-col w-fit">
+      <input formControlName="country" placeholder="Country" class="my-1"/>
+      <input formControlName="email" type="email" placeholder="Email" class="my-1"/>
+      <input formControlName="firstName" placeholder="First Name" class="my-1"/>
+      <input formControlName="lastName" placeholder="Last Name" class="my-1"/>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Select date" (dateChange)="onDateChange($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <input formControlName="line1" placeholder="Address Line 1" class="my-1"/>
+      <input formControlName="postalCode" placeholder="Postal Code" class="my-1"/>
+      <input formControlName="city" placeholder="City" class="my-1"/>
+      <input formControlName="iban" placeholder="IBAN" class="my-1"/>
+      <input formControlName="amount" placeholder="Amount" class="my-1"/>
+      <button type="submit">Create Account</button>
+    </form>
+  </div>
   <!-- your-component.component.html -->
   <div class="plaid-link-container">
     <button (click)="initializePlaid()" id="link-account-button" class="btn btn-primary">
@@ -9,8 +29,6 @@
     <p>Pinigų išmokėjimo metodai:</p>
     <div>Sąrašas</div>
     <div>
-      <p>Suma</p>
-      <input>
     </div>
 
 

@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ChangePasswordRequest} from "../../models/change-password-request";
 import {jwtDecode} from 'jwt-decode';
 import {UserPublicDataResponse} from "../../models/user-public-data-response";
+import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
@@ -37,4 +38,5 @@ export class UserService {
   getPrivateUserData() {
     return this.http.get<UserPrivateDataResponse>(`${this.userUrl}/get-private-data`);
   }
+
 }

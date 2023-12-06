@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
-import {StripeCardComponent, StripeService as NgxStripeService} from "ngx-stripe";
+import {StripeCardComponent, StripeService, StripeService as NgxStripeService} from "ngx-stripe";
 import { NgxPlaidLinkModule } from "ngx-plaid-link";
 import {
   loadStripe,
@@ -17,29 +17,102 @@ import {UserService} from "../../../services/user/user.service";
 import {UsernameRequest} from "../../../models/username-request";
 import {ExchangePublicTokenRequest} from "../../../models/exchange-public-token-request";
 import {ExchangePublicTokenResponse} from "../../../models/exchange-public-token-response";
+import {StripeService as AngularStripeService} from "../../../services/stripe/stripe.service"
+import {MiscService} from "../../../services/miscellaneous/misc.service";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 declare var Plaid: any;
 @Component({
   selector: 'app-withdraw',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogActions, MatDialogContent, ReactiveFormsModule, StripeCardComponent, NgxPlaidLinkModule],
+  imports: [CommonModule, FormsModule, MatDialogActions, MatDialogContent, ReactiveFormsModule, StripeCardComponent, NgxPlaidLinkModule, MatFormFieldModule, MatDatepickerModule],
   templateUrl: './withdraw.component.html',
   styleUrl: './withdraw.component.css'
 })
-export class WithdrawComponent{
+export class WithdrawComponent implements OnInit {
   stripePromise: Promise<Stripe | null>;
-  accountHolderName: string;
-  accountHolderType: string;
-  iban: string;
   accessToken: string;
   item_id: string;
-  constructor(private plaidService: PlaidService, private userService: UserService) {
+  accountForm: FormGroup;
+  userIp: string = '';
+  constructor(private plaidService: PlaidService, private userService: UserService,private fb: FormBuilder,
+              private stripeService: StripeService, private angularStripeService: AngularStripeService,
+              private miscService: MiscService) {
     this.stripePromise = loadStripe(publishableKey.publishableKey);
-    this.accountHolderName = '';
-    this.accountHolderType = 'individual';
-    this.iban = '';
     this.accessToken = '';
     this.item_id = '';
+
+    this.accountForm = this.fb.group({
+      country: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      url: [''],
+      tosIp: [''], // You might want to automate this
+      tosDate: [''], // You might want to automate this
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dobDay: ['', Validators.required],
+      dobMonth: ['', Validators.required],
+      dobYear: ['', Validators.required],
+      line1: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      city: ['', Validators.required],
+      iban: ['', Validators.required],
+      amount: ['', Validators.required]
+    });
   }
+
+  ngOnInit() {
+    this.miscService.getUserIp().subscribe(ip => {
+      this.userIp = ip;
+      console.log('User IP:', this.userIp);
+      this.accountForm.patchValue({tosIp: this.userIp});
+    }, error => {
+      console.error('There was an error!', error);
+    });
+    this.miscService.getCurrentDate().subscribe(dateString => {
+      this.accountForm.patchValue({ tosDate: dateString });
+      console.log(dateString);
+    }, error => {
+      console.error('Error fetching current date:', error);
+    });
+    this.accountForm.patchValue({url: 'https://localhost:4200/profile/'+ this.userService.getUserNicknameFromToken()})
+
+
+  }
+
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    const date = event.value;
+    if (date) {
+      this.accountForm.patchValue({
+        dobDay: date.getDate(),
+        dobMonth: date.getMonth() + 1,
+        dobYear: date.getFullYear()
+      });
+    }
+  }
+  onSubmit() {
+    if (this.accountForm.valid) {
+      const tosDate = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+      this.accountForm.patchValue({ tosDate: tosDate }); // Set the timestamp in the form
+
+      this.angularStripeService.createCustomAccount(this.accountForm.value).subscribe(
+        response => {
+          console.log('Account created successfully', response);
+          // Handle successful response here
+        },
+        error => {
+          console.error('Error creating account', error);
+          // Handle errors here
+        }
+      );
+    } else {
+      console.log('Form is not valid');
+    }
+  }
+
+
 
   loadPlaidScript(): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -66,11 +139,7 @@ export class WithdrawComponent{
       const usernameRequest: UsernameRequest = {
         username: username
       };
-      /*const linkTokenResponse = await this.plaidService.createLinkToken(usernameRequest).toPromise();
-      console.log(linkTokenResponse)
-      if (!linkTokenResponse || !linkTokenResponse.linkToken) {
-        throw new Error('Failed to retrieve link token');
-      }*/
+
       const linkToken = await this.plaidService.createLinkToken(usernameRequest).toPromise();
       if (!linkToken) {
         throw new Error('Failed to retrieve link token');
@@ -106,7 +175,7 @@ export class WithdrawComponent{
     }
   }
 
-  async createBankAccountToken(): Promise<void> {
+  /*async createBankAccountToken(): Promise<void> {
     const stripe = await this.stripePromise;
     if (!stripe) {
       console.error('Stripe initialization failed');
@@ -129,5 +198,5 @@ export class WithdrawComponent{
         // Send this token to your backend for further processing
       }
     });
-  }
+  }*/
 }

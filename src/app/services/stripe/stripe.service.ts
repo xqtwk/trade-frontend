@@ -19,6 +19,10 @@ export class StripeService {
         return this.publishableKey;
     }
 
+  createCustomAccount(customAccountRequest: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create-account`, customAccountRequest);
+  }
+
     topUpBalance(amount: number, userId: string, tokenId: string) {
         const paymentRequest: DepositRequest = {
             amount: amount,
