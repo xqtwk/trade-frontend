@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {publishableKey} from "../../../assets/publishableKey";
 import {WithdrawRequest} from "../../models/withdraw-request";
 import {DepositRequest} from "../../models/deposit-request";
+import {StripeCustomAccountCreateRequest} from "../../models/stripe-custom-account-create-request";
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +20,10 @@ export class StripeService {
         return this.publishableKey;
     }
 
-  createCustomAccount(customAccountRequest: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/create-account`, customAccountRequest);
+
+
+  createCustomAccount(customAccountRequest: StripeCustomAccountCreateRequest): Observable<StripeCustomAccountCreateRequest> {
+    return this.http.post<StripeCustomAccountCreateRequest>(`${this.baseUrl}/create-account`, customAccountRequest);
   }
 
     topUpBalance(amount: number, userId: string, tokenId: string) {

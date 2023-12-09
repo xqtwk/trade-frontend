@@ -6,6 +6,9 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {NgxStripeModule, StripeCardComponent, StripeService as AngularStripeService} from 'ngx-stripe';
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 import {UserService} from "../../../services/user/user.service";
+import {CardTokenizedEvent} from "../../../models/card-tokenized-event";
+import {CheckoutcomService} from "../../../services/checkoutcom/checkoutcom.service";
+declare let Frames: any;
 
 @Component({
   selector: 'app-balance',
@@ -14,17 +17,13 @@ import {UserService} from "../../../services/user/user.service";
   templateUrl: './deposit.component.html',
   styleUrl: './deposit.component.css'
 })
-export class DepositComponent implements AfterViewInit, OnInit {
+export class DepositComponent implements OnInit {
   @ViewChild(StripeCardComponent) card!: StripeCardComponent;
   userId: string = '';
 
   paymentForm = new FormGroup({
-    cardholderName: new FormControl(''), // Already in your form
-    cardNumber: new FormControl(''), // Add form control for card number
-    expMonth: new FormControl(''), // Add form control for card expiration month
-    expYear: new FormControl(''), // Add form control for card expiration year
-    cvc: new FormControl(''), // Add form control for card cvc
-    amount: new FormControl(null , Validators.required)
+    cardholderName: new FormControl('', [Validators.required]),
+    amount: new FormControl(null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)])
   });
   cardOptions: StripeCardElementOptions = {
     style: {
@@ -45,9 +44,11 @@ export class DepositComponent implements AfterViewInit, OnInit {
     locale: 'en',
   };
   ngOnInit() {
+    console.log("beforemethod")
     this.userService.getPrivateUserData().subscribe(
       response => {
         this.userId = response.id.toString();
+        console.log("id" + response.id);
       },
       error => {
         console.error("Can't reach user data", error);
@@ -103,7 +104,89 @@ export class DepositComponent implements AfterViewInit, OnInit {
       );
     } else {
       console.error('Amount and User ID are required for payment');
+      console.log("userid " + this.userId);
+      console.log("amount " + amount)
     }
   }
 
+
+
+
+
+
+
+
+
+ /* paymentForm: FormGroup;
+  tokenizedCard: string | null = null; // Variable to store the tokenized card
+  isSubmitting: boolean = false;
+
+  constructor(private checkoutcomService: CheckoutcomService) {
+    this.paymentForm = new FormGroup({
+      cardholderName: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)]) // Assuming amount is a decimal
+    });
+  }
+
+  ngOnInit(): void {
+    Frames.init("pk_sbox_qyr3mqaocwyp7iopxa4xi3cejy=");
+    Frames.addEventHandler(Frames.Events.CARD_TOKENIZED, (event: CardTokenizedEvent) => {
+      this.tokenizedCard = event.token; // Store the tokenized card
+      console.log("token" + this.tokenizedCard);
+      this.pay(); // Call pay() after tokenization
+    });
+  }
+
+  try() :void {
+    const paymentData = {
+      amount: 1000,
+      token: "tokenlmao"
+    };
+    this.checkoutcomService.sendPayment(paymentData).subscribe(
+      response => {
+        console.log(response);
+        // Additional success handling
+      },
+      error => {
+        console.error(error);
+        // Additional error handling
+      },
+      () => {
+
+      }
+    );
+  }
+  tokenizeCard(): void {
+    // Always trigger Frames tokenization
+    Frames.submitCard();
+  }
+
+  pay(): void {
+    if (this.paymentForm.valid && this.tokenizedCard) {
+      this.isSubmitting = true; // Disable the button
+
+      const paymentData = {
+        //amount: this.paymentForm.value.amount,
+        //token: this.tokenizedCard
+        amount: 1000,
+        token: "tokenlmao"
+      };
+
+      this.checkoutcomService.sendPayment(paymentData).subscribe(
+        response => {
+          console.log(response);
+          // Additional success handling
+        },
+        error => {
+          console.error(error);
+          // Additional error handling
+        },
+        () => {
+          this.isSubmitting = false; // Re-enable the button
+          this.tokenizedCard = null; // Reset tokenizedCard for new tokenization
+        }
+      );
+    }
+  }
+*/
 }

@@ -19,15 +19,16 @@ import {ExchangePublicTokenRequest} from "../../../models/exchange-public-token-
 import {ExchangePublicTokenResponse} from "../../../models/exchange-public-token-response";
 import {StripeService as AngularStripeService} from "../../../services/stripe/stripe.service"
 import {MiscService} from "../../../services/miscellaneous/misc.service";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatDatepickerInputEvent, MatDatepickerModule} from "@angular/material/datepicker";
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
+import {StripeCustomAccountCreateRequest} from "../../../models/stripe-custom-account-create-request";
+import {CreateBankAccountTokenRequest} from "../../../models/create-bank-account-token-request";
+import {CheckoutcomService} from "../../../services/checkoutcom/checkoutcom.service";
+
 declare var Plaid: any;
 @Component({
   selector: 'app-withdraw',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogActions, MatDialogContent, ReactiveFormsModule, StripeCardComponent, NgxPlaidLinkModule, MatFormFieldModule, MatDatepickerModule],
+  imports: [CommonModule, FormsModule, MatDialogActions, MatDialogContent, ReactiveFormsModule, StripeCardComponent,
+    NgxPlaidLinkModule],
   templateUrl: './withdraw.component.html',
   styleUrl: './withdraw.component.css'
 })
@@ -37,15 +38,33 @@ export class WithdrawComponent implements OnInit {
   item_id: string;
   accountForm: FormGroup;
   userIp: string = '';
+  account_id: string = '';
+  customAccountCreated: boolean = false;
   constructor(private plaidService: PlaidService, private userService: UserService,private fb: FormBuilder,
               private stripeService: StripeService, private angularStripeService: AngularStripeService,
-              private miscService: MiscService) {
+              private miscService: MiscService, private checkoutcomService: CheckoutcomService) {
     this.stripePromise = loadStripe(publishableKey.publishableKey);
     this.accessToken = '';
     this.item_id = '';
-
     this.accountForm = this.fb.group({
-      country: ['', Validators.required],
+      country: ['LT', Validators.required], // Lithuania
+      email: ['jonas@example.com', [Validators.required, Validators.email]],
+      url: ['https://www.facebook.com/profile.php?id=100010201590777'],
+      tosIp: ['192.168.1.1'], // Example IP, you might fetch the real IP
+      tosDate: ['2023-03-21'], // Example date in YYYY-MM-DD format
+      firstName: ['Jonas'],
+      lastName: ['Jonaitis'],
+      dob: [],
+      dobDay: [15, Validators.required],
+      dobMonth: [4, Validators.required], // April
+      dobYear: [1985, Validators.required],
+      line1: ['Gedimino pr. 9'],
+      postalCode: ['01103'],
+      city: ['Vilnius'],
+      iban: ['LT601010012345678901'], // Example IBAN
+      amount: [100, Validators.required] // Example amount
+      /*
+      country: ['LT', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       url: [''],
       tosIp: [''], // You might want to automate this
@@ -60,9 +79,28 @@ export class WithdrawComponent implements OnInit {
       city: ['', Validators.required],
       iban: ['', Validators.required],
       amount: ['', Validators.required]
+      */
     });
   }
 
+  countries = [
+    { name: 'Lietuva', value: 'LT' },
+    { name: 'Jungtinė Karalystė', value: 'GB' },
+    { name: 'Ispanija', value: 'ES' },
+    { name: 'Nyderlandai', value: 'NL' },
+    { name: 'Prancūzija', value: 'FR' },
+    { name: 'Airija', value: 'IE' },
+    { name: 'Vokietija', value: 'DE' },
+    { name: 'Italija', value: 'IT' },
+    { name: 'Lenkija', value: 'PL' },
+    { name: 'Danija', value: 'DK' },
+    { name: 'Norvegija', value: 'NO' },
+    { name: 'Švedija', value: 'SE' },
+    { name: 'Estija', value: 'EE' },
+    { name: 'Latvija', value: 'LV' },
+    { name: 'Portugalija', value: 'PT' },
+    { name: 'Belgija', value: 'BE' }
+  ];
   ngOnInit() {
     this.miscService.getUserIp().subscribe(ip => {
       this.userIp = ip;
@@ -77,30 +115,65 @@ export class WithdrawComponent implements OnInit {
     }, error => {
       console.error('Error fetching current date:', error);
     });
-    this.accountForm.patchValue({url: 'https://localhost:4200/profile/'+ this.userService.getUserNicknameFromToken()})
+    //this.accountForm.patchValue({url: 'https://localhost:4200/profile/'+ this.userService.getUserNicknameFromToken()})
 
 
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
-    const date = event.value;
-    if (date) {
-      this.accountForm.patchValue({
-        dobDay: date.getDate(),
-        dobMonth: date.getMonth() + 1,
-        dobYear: date.getFullYear()
-      });
-    }
+  send() {
+
+
+
+    /*const pay = {
+      gad: "gad"
+    };
+    this.checkoutcomService.sendPayment(pay).subscribe(
+      response => {
+        console.log('payout created successfully');
+        }, error => {
+          console.log("Error happened during creating payout")
+        });*/
   }
+
   onSubmit() {
     if (this.accountForm.valid) {
-      const tosDate = Math.floor(Date.now() / 1000); // Current timestamp in seconds
-      this.accountForm.patchValue({ tosDate: tosDate }); // Set the timestamp in the form
+      const selectedDate = new Date(this.accountForm.value.dob);
+      console.log("selected date: " + selectedDate);
+      const day = selectedDate.getDate();
+      const month = selectedDate.getMonth() + 1; // getMonth() returns 0-11
+      const year = selectedDate.getFullYear();
+      this.accountForm.patchValue({ dobDay: day, dobMonth: month, dobYear: year}); // Set the timestamp in the form
+      const formValue = this.accountForm.value;
+      const stripeCustomAccountRequest: StripeCustomAccountCreateRequest = {
+        country: formValue.country,
+        email: formValue.email,
+        url: formValue.url,
+        tosIp: formValue.tosIp,
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        dobDay: formValue.dobDay,
+        dobMonth: formValue.dobMonth,
+        dobYear: formValue.dobYear,
+        line1: formValue.line1,
+        postalCode: formValue.postalCode,
+        city: formValue.city,
+        iban: formValue.iban,
+        amount: formValue.amount
+      };
 
-      this.angularStripeService.createCustomAccount(this.accountForm.value).subscribe(
+      this.angularStripeService.createCustomAccount(stripeCustomAccountRequest).subscribe(
         response => {
           console.log('Account created successfully', response);
-          // Handle successful response here
+          console.log("Succeed?");
+          const createBankAccountTokenRequest: CreateBankAccountTokenRequest = {
+            account_id: this.account_id
+          }
+            this.plaidService.createStripeBankAccountToken(createBankAccountTokenRequest).subscribe(response=> {
+              console.log("stripe bank account token created successfully")
+              console.log(response);
+            }, error => {
+              console.log("error happened during creating stripe bank account token")
+            });
         },
         error => {
           console.error('Error creating account', error);
@@ -147,8 +220,8 @@ export class WithdrawComponent implements OnInit {
       const handler = (window as any).Plaid.create({
         token: linkToken,
         onSuccess: async (publicToken: string, metadata: any) => {
-          const account_id = metadata.account_id;
-          console.log("plaid account id: " + account_id);
+          this.account_id = metadata.account_id;
+          console.log("plaid account id: " + this.account_id);
           const exchangePublicTokenRequest: ExchangePublicTokenRequest = {
             publicToken: publicToken,
             username: username
@@ -174,6 +247,8 @@ export class WithdrawComponent implements OnInit {
       console.error('Error initializing Plaid:', error);
     }
   }
+
+
 
   /*async createBankAccountToken(): Promise<void> {
     const stripe = await this.stripePromise;

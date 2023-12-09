@@ -41,6 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 /src/assets/publishableKey.ts
-/src/assets/yourdomain.key
-/src/assets/yourdomain.crt
 /key/
+/src/assets/server.crt
+/src/assets/server.key

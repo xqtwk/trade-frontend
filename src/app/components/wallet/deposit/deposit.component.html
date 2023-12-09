@@ -1,17 +1,17 @@
 <mat-dialog-content>
-  <form  [formGroup]="paymentForm">
+   <form  [formGroup]="paymentForm">
 
-    <ngx-stripe-card
-      [options]="cardOptions"
-      [elementsOptions]="elementsOptions">
-    </ngx-stripe-card>
-    <p>Kortelės savininko vardas ir pavardė</p>
-    <input formControlName="cardholderName">
-    <p>Suma</p>
-    <input formControlName="amount">
-    <mat-dialog-actions>
-      <button (click)="pay()">Pay</button>
-    </mat-dialog-actions>
+   <ngx-stripe-card
+     [options]="cardOptions"
+     [elementsOptions]="elementsOptions">
+   </ngx-stripe-card>
+   <p>Kortelės savininko vardas ir pavardė</p>
+   <input formControlName="cardholderName">
+   <p>Suma</p>
+   <input formControlName="amount">
+  <mat-dialog-actions>
+     <button (click)="pay()">Pay</button>
+  </mat-dialog-actions>
 
   </form>
 </mat-dialog-content>
