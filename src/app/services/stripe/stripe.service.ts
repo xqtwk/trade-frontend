@@ -29,8 +29,8 @@ export class StripeService {
     topUpBalance(amount: number, userId: string, tokenId: string) {
         const paymentRequest: DepositRequest = {
             amount: amount,
-            userId: userId,
-            tokenId: tokenId
+            username: userId,// change pls
+            country: tokenId// change pls
         };
 
         return this.http.post(`${this.baseUrl}/top-up`, paymentRequest, {responseType: 'text'}) as Observable<string>;

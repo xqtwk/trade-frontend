@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Directive, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StripeService} from "../../../services/stripe/stripe.service";
 import {StripeCardElementOptions, StripeElementsOptions} from "@stripe/stripe-js";
@@ -8,6 +8,8 @@ import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 import {UserService} from "../../../services/user/user.service";
 import {CardTokenizedEvent} from "../../../models/card-tokenized-event";
 import {CheckoutcomService} from "../../../services/checkoutcom/checkoutcom.service";
+import {RapydService} from "../../../services/rapyd/rapyd.service";
+import {DepositRequest} from "../../../models/deposit-request";
 declare let Frames: any;
 
 @Component({
@@ -22,72 +24,56 @@ export class DepositComponent implements OnInit {
   userId: string = '';
 
   paymentForm = new FormGroup({
-    cardholderName: new FormControl('', [Validators.required]),
+    country: new FormControl('LT', [Validators.required]),
     amount: new FormControl(null, [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/)])
   });
-  cardOptions: StripeCardElementOptions = {
-    style: {
-      base: {
-        iconColor: '#666EE8',
-        color: '#31325F',
-        lineHeight: '40px',
-        fontWeight: 300,
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSize: '18px',
-        '::placeholder': {
-          color: '#CFD7E0',
-        },
-      },
-    },
-  };
-  elementsOptions: StripeElementsOptions = {
-    locale: 'en',
-  };
+
   ngOnInit() {
+    this.el.nativeElement.setAttribute('tabindex', '-1');
     console.log("beforemethod")
-    this.userService.getPrivateUserData().subscribe(
-      response => {
-        this.userId = response.id.toString();
-        console.log("id" + response.id);
-      },
-      error => {
-        console.error("Can't reach user data", error);
-      }
-    );
   }
 
-  constructor(private stripeService: StripeService, private angularStripeService: AngularStripeService, private userService: UserService) {
+  constructor(private stripeService: StripeService,
+              private rapydService: RapydService,
+              private userService: UserService,
+              private el: ElementRef) {
 
   }
 
   ngAfterViewInit(): void {
-    if (this.card.element) {
-      this.card.element.on('change', (event) => {
-        if (event.complete) {
-          // Card Input is complete, you can query for token here
-        } else if (event.error) {
-          // Display any card error here
-        }
-      });
-    }
+
   }
 
   pay(): void {
-    const cardholderName = this.paymentForm.get('cardholderName')?.value ?? '';
+    if (this.paymentForm.valid) {
+      const amount = this.paymentForm.get('amount')?.value;
+      const username = this.userService.getUserNicknameFromToken() as string;
+      const country = this.paymentForm.get('country')?.value ?? '';
 
-    if (cardholderName) {
-      this.angularStripeService.createToken(this.card.element, {name: cardholderName}).subscribe(result => {
-        // Handle result.error or result.token
-        if (result.token) {
-          this.sendTokenToBackend(result.token.id);
-          //  4242 4242 4242 4242 12/34 666
-          console.log(result.token.id);
-        } else if (result.error) {
-          // Log the error
-        }
-      });
+      if (amount != null && !isNaN(amount)) {
+        const depositRequest: DepositRequest = {
+          username: username,
+          country: country,
+          amount: parseFloat(amount)
+        };
+
+        this.rapydService.createCheckout(depositRequest).subscribe(
+          response => {
+            console.log('checkout id: ', response.checkoutId);
+            window.location.href = "https://sandboxcheckout.rapyd.net/?token=" + response.checkoutId;
+          },
+          error => {
+            console.error('Payment failed:', error);
+          }
+        );
+
+      } else {
+        // Handle the case where amount is not a valid number
+        console.error('Invalid amount');
+      }
     } else {
-      console.error('Card holder name is required');
+      // Handle invalid form
+      console.error('Form is not valid');
     }
   }
 

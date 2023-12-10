@@ -65,7 +65,7 @@
             }
           },
           "options": {
-            "buildTarget": "trade-frontend:build",
+            "buildTarget": "trade-frontend:build:development",
             "ssl": true,
             "sslKey": "src/assets/server.key",
             "sslCert": "src/assets/server.crt"

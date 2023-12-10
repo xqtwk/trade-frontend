@@ -1,5 +1,5 @@
 export interface DepositRequest {
-    amount?: number;
-    userId: string;
-    tokenId: string;
+    username: string;
+    country: string;
+    amount: number;
 }
