@@ -7,12 +7,13 @@ import {VerificationRequest} from "../../models/verification-request";
 import {BehaviorSubject, Observable, tap} from "rxjs";
 import {MfaToggleRequest} from "../../models/mfa-toggle-request";
 import {MfaSetupResponse} from "../../models/mfa-setup-response";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private baseUrl = 'https://localhost:8080/auth';
+  private baseUrl = environment.apiUrl + 'auth';
 
   private isAuthenticated = new BehaviorSubject<boolean>(this.checkToken());
 

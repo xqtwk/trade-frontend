@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {DepositRequest} from "../../models/deposit-request";
 import {Observable} from "rxjs";
 import {DepositResponse} from "../../models/deposit-response";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RapydService {
-  private baseUrl = 'https://localhost:8080/pay';
+  private baseUrl = environment.apiUrl + 'pay';
 
 
   constructor(private http: HttpClient) {

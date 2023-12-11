@@ -5,11 +5,12 @@ import {ChangePasswordRequest} from "../../models/change-password-request";
 import {jwtDecode} from 'jwt-decode';
 import {UserPublicDataResponse} from "../../models/user-public-data-response";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private userUrl = 'https://localhost:8080/users';
+  private userUrl = environment.apiUrl + 'users';
 
   constructor(private http: HttpClient) {
   }

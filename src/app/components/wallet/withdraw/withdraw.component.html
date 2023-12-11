@@ -1,47 +1,8 @@
 <mat-dialog-content>
-  <div>
-    <p>Kad suteikti jums galimybę gauti pinigų išmoką, jums reikia pateikti mums papildomą informaciją apie save.</p>
-    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="flex flex-col w-fit">
-      <input formControlName="firstName" placeholder="Vardas" class="my-1"/>
-      <input formControlName="lastName" placeholder="Pavardė" class="my-1"/>
-      <input formControlName="iban" placeholder="IBAN" class="my-1"/>
 
-      <select formControlName="country" class="my-1" >
-        <option *ngFor="let country of countries" [value]="country.value">
-          {{ country.name }}
-        </option>
-      </select>
-
-      <input formControlName="email" type="email" placeholder="Email" class="my-1"/>
-
-      <input type="date" formControlName="dob" placeholder="Date of Birth">
-
-      <input formControlName="line1" placeholder="Adresas" class="my-1"/>
-      <input formControlName="postalCode" placeholder="Pašto kodas" class="my-1"/>
-      <input formControlName="city" placeholder="Miestas" class="my-1"/>
-      <input formControlName="amount" placeholder="Suma" class="my-1"/>
-      <button type="submit">Create Account</button>
-    </form>
-  </div>
-  <!-- your-component.component.html -->
-  <div class="plaid-link-container">
-    <button (click)="initializePlaid()" id="link-account-button" class="btn btn-primary">
-      Link Bank Account
-    </button>
-  </div>
-  <div>
-    <p>Pinigų išmokėjimo metodai:</p>
-    <div>Sąrašas</div>
-    <div>
-    </div>
-
-
-
-    <!-- Form for payment method -->
 
       <mat-dialog-actions>
         <button type="submit">Išvesti</button>
       </mat-dialog-actions>
 
-  </div>
 </mat-dialog-content>
