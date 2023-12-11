@@ -16,7 +16,7 @@ import {httpsGuard} from "./services/guard/https.guard";
 import {WalletComponent} from "./components/wallet/wallet.component";
 
 export const routes: Routes = [
-  {path: '', component: MainComponent, canActivate: [httpsGuard]},
+  {path: '', component: MainComponent},
   {path: 'orders/purchases', component: PurchasesComponent, canActivate: [authGuard]},
   {path: 'orders/sales', component: SalesComponent, canActivate: [authGuard]},
   {path: 'goods', component: GoodsComponent, canActivate: [authGuard]},
