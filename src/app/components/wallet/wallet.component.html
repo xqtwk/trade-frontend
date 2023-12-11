@@ -1,3 +1,36 @@
-<p>wallet works!</p>
-<button mat-button (click)="openDepositDialog()">Papildyti balansą</button>
-<button mat-button (click)="openWithdrawDialog()">Išvesti balansą</button>
+<div class="mx-10 2xl:mx-40 pt-10">
+  <header class="flex flex-row items-center justify-between">
+    <div>
+      <h1 class="text-3xl">
+        Piniginė
+      </h1>
+    </div>
+    <div class="flex flex-row">
+      <div>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" (click)="openDepositDialog()">Papildyti balansą</button>
+      </div>
+      <div>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" (click)="openWithdrawDialog()">Išvesti balansą</button>
+      </div>
+    </div>
+  </header>
+  <hr class="line max-w-full">
+  <table class="table-auto w-full" *ngIf="userData">
+    <thead>
+    <tr class="bg-gray-200 font-bold">
+      <th class="">Tranzakcijos numeris</th>
+      <th class="">Tipas</th>
+      <th class="">Suma</th>
+      <th class="">Statusas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let transaction of userData.transactions" class="w-full">
+      <td class="p-2">{{ transaction.operationId }}</td>
+      <td class="p-2">{{ transaction.type }}</td>
+      <td class="p-2">{{ transaction.amount }}</td>
+      <td class="p-2">{{ transaction.status }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

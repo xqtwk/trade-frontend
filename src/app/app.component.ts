@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {SidebarComponent} from "./components/sidebar/sidebar.component";
-import {TopbarComponent} from "./components/topbar/topbar.component";
+import {SidebarComponent} from "./components/menu/sidebar/sidebar.component";
+import {TopbarComponent} from "./components/menu/topbar/topbar.component";
 import {MainComponent} from "./components/main/main.component";
 
 @Component({

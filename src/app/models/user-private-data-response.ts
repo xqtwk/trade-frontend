@@ -1,3 +1,5 @@
+import {Transaction} from "./transaction";
+
 export interface UserPrivateDataResponse {
   id: number;
   username: string;
@@ -5,4 +7,5 @@ export interface UserPrivateDataResponse {
   balance: number;
   role: 'USER' | 'ADMIN';
   mfaEnabled: boolean;
+  transactions: Transaction[];
 }

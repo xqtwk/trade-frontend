@@ -1,14 +1,61 @@
 <mat-dialog-content>
-  <form [formGroup]="paymentForm">
-
-    <ngx-stripe-card
-      [options]="cardOptions"
-      [elementsOptions]="elementsOptions"></ngx-stripe-card>
-
-    <input formControlName="cardholderName">
-    <mat-dialog-actions>
-      <button (click)="pay()">Pay</button>
-    </mat-dialog-actions>
+   <form  [formGroup]="paymentForm">
+     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pasirinkite šalį</label>
+     <select formControlName="country" id="countries" class="text-sm rounded-lg block p-2.5 outline-0">
+       <option >Pasirinkite šalį</option>
+       <option value="LT">Lietuva</option>
+       <option value="LV">Latvija</option>
+       <option value="LI">Lichtenšteinas</option>
+       <option value="LU">Liuksemburgas</option>
+       <option value="AD">Andora</option>
+       <option value="AT">Austrija</option>
+       <option value="BE">Belgija</option>
+       <option value="BA">Bosnija ir Hercegovina</option>
+       <option value="BG">Bulgarija</option>
+       <option value="HR">Kroatija</option>
+       <option value="CY">Kipras</option>
+       <option value="CZ">Čekija</option>
+       <option value="DK">Danija</option>
+       <option value="EE">Estija</option>
+       <option value="FI">Suomija</option>
+       <option value="FR">Prancūzija</option>
+       <option value="GE">Gruzija</option>
+       <option value="DE">Vokietija</option>
+       <option value="GI">Gibraltaras</option>
+       <option value="GR">Graikija</option>
+       <option value="GL">Grenlandija</option>
+       <option value="HU">Vengrija</option>
+       <option value="IS">Islandija</option>
+       <option value="IE">Airija</option>
+       <option value="IL">Izraelis</option>
+       <option value="IT">Italija</option>
+       <option value="MK">Makedonija</option>
+       <option value="MT">Malta</option>
+       <option value="MD">Moldova</option>
+       <option value="MC">Monakas</option>
+       <option value="ME">Juodkalnija</option>
+       <option value="NL">Nyderlandai</option>
+       <option value="GB-NIR">Šiaurės Airija</option>
+       <option value="NO">Norvegija</option>
+       <option value="PL">Lenkija</option>
+       <option value="PT">Portugalija</option>
+       <option value="RO">Rumunija</option>
+       <option value="SM">San Marinas</option>
+       <option value="SK">Slovakija</option>
+       <option value="SI">Slovėnija</option>
+       <option value="ZA">Pietų Afrika</option>
+       <option value="ES">Ispanija</option>
+       <option value="SE">Švedija</option>
+       <option value="CH">Šveicarija</option>
+       <option value="TR">Turkija</option>
+       <option value="GB">Jungtinė Karalystė</option>
+       <option value="VA">Vatikanas</option>
+     </select>
+   <p>Suma</p>
+   <input formControlName="amount" class="outline-0">
+  <mat-dialog-actions>
+     <button (click)="pay()">Papildyti</button>
+  </mat-dialog-actions>
 
   </form>
 </mat-dialog-content>

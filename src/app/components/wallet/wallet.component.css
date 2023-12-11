@@ -1,0 +1,9 @@
+.line {
+  color: var(--light);
+  border-top: 1px solid var(--gray);
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+h1 {
+  font-size:24px;
+}

@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
-import {RegisterRequest} from "../../models/registration-request";
-import {AuthenticationResponse} from "../../models/authentication-response";
+import {RegisterRequest} from "../../../models/registration-request";
+import {AuthenticationResponse} from "../../../models/authentication-response";
 import {Router, RouterLink} from "@angular/router";
-import {AuthenticationService} from "../../services/auth/authentication.service";
-import {VerificationRequest} from "../../models/verification-request";
+import {AuthenticationService} from "../../../services/auth/authentication.service";
+import {VerificationRequest} from "../../../models/verification-request";
 import {HttpClientModule} from "@angular/common/http";
 
 @Component({
@@ -29,21 +29,21 @@ export class RegistrationComponent {
   }
 
   registerUser() {
-    this.message = '';
-    this.authService.register(this.registerRequest)
-      .subscribe({
-        next: (response) => {
-          if (response) {
-            this.authResponse = response;
-          } else {
-            //this.message = 'Account created successfully\nYou will be redirected to the Login page in 3 seconds';
-            //setTimeout(() => {
-              this.router.navigate(['']);
-           // }, 1000)
-          }
+    this.authService.register(this.registerRequest).subscribe({
+      next: (response) => {
+        if (response.accessToken && !response.mfaEnabled) {
+          localStorage.setItem('token', response.accessToken);
+          // Notify the application that the user is authenticated
+          this.authService.setAuthenticated(true);
+          this.router.navigate(['']); // Navigate to home page or dashboard
+        } else if (response.mfaEnabled) {
+          this.authResponse = response;
         }
-      });
-
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
   verifyTfa() {

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChangePasswordComponent } from './changepassword.component';
+import { ToggleMfaComponent } from './toggle-mfa.component';
 
-describe('ChangePasswordComponent', () => {
-  let component: ChangePasswordComponent;
-  let fixture: ComponentFixture<ChangePasswordComponent>;
+describe('ToggleMfaComponent', () => {
+  let component: ToggleMfaComponent;
+  let fixture: ComponentFixture<ToggleMfaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangePasswordComponent]
+      imports: [ToggleMfaComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(ChangePasswordComponent);
+    
+    fixture = TestBed.createComponent(ToggleMfaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

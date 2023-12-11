@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ProfileService} from "../../services/profile.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../services/user/user.service";
 
 @Component({
@@ -14,12 +14,24 @@ import {UserService} from "../../services/user/user.service";
 export class ProfileComponent implements OnInit {
   username: string | null | undefined;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username');
-      // Now you can use this.username to fetch user data from the backend
+      if (!this.username) {
+        this.router.navigate(['/']); // Replace '/' with your main page route
+        return;
+      }
+      this.userService.getPublicUserData(this.username).subscribe(
+        (userData) => {
+
+        },
+        (error) => {
+
+        }
+      );
+
     });
   }
 }

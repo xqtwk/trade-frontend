@@ -3,11 +3,14 @@ import {UserPrivateDataResponse} from "../../models/user-private-data-response";
 import {HttpClient} from "@angular/common/http";
 import {ChangePasswordRequest} from "../../models/change-password-request";
 import {jwtDecode} from 'jwt-decode';
+import {UserPublicDataResponse} from "../../models/user-public-data-response";
+import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private userUrl = 'https://localhost:8080/users';
+  private userUrl = environment.apiUrl + 'users';
 
   constructor(private http: HttpClient) {
   }
@@ -29,11 +32,12 @@ export class UserService {
     }
   }
 
-  getPublicUserData() {
-    return this.http.get(`${this.userUrl}/get-public-data`);
+  getPublicUserData(username: string | null | undefined) {
+    return this.http.get<UserPublicDataResponse>(`${this.userUrl}/get-public-data/${username}`);
   }
 
   getPrivateUserData() {
-    return this.http.get(`${this.userUrl}/get-public-data`);
+    return this.http.get<UserPrivateDataResponse>(`${this.userUrl}/get-private-data`);
   }
+
 }
