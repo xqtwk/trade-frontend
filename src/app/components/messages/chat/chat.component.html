@@ -1,0 +1,25 @@
+<!-- Messages List -->
+<ul class="flex flex-col space-y-2 overflow-y-auto p-3 bg-gray-100 max-h-96">
+  <li *ngFor="let message of messages"
+      class="break-words max-w-3/4"
+      [ngClass]="{
+              'text-left bg-white': message.senderUsername === username,
+              'text-right bg-green-200': message.senderUsername !== username
+            }">
+      <span class="font-semibold">
+        {{ message.senderUsername === username ? username : message.senderUsername }}:
+      </span>
+    {{ message.content }}
+  </li>
+</ul>
+
+<!-- Input and Send Button -->
+<div class="p-3 bg-gray-200">
+  <div class="flex space-x-2">
+    <input [(ngModel)]="newMessage" type="text" placeholder="Type a message..." class="flex-grow p-2 border border-gray-300 rounded">
+    <button (click)="sendMessage()" class="px-4 bg-green-500 text-white rounded hover:bg-green-600">
+      Send
+    </button>
+  </div>
+</div>
+

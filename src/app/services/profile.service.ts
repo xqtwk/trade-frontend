@@ -6,9 +6,5 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class ProfileService {
-  private baseUrl = environment.apiUrl + 'profile';
-  constructor(private http: HttpClient) { }
-  getProfileInfo(userId: string) {
-    return this.http.get(`${this.baseUrl}/${userId}`);
-  }
+
 }

@@ -13,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([
         loggerInterceptor
     ])),
-    provideNgxStripe('pk_test_51OIFQQBurQqw5g3lwqIQDciVWyTEhWIWlaYAyyaJdgiBHVY5BHduSL53ygobg41OZlX0vsvQXOgWQPs56b3Bkqle00UfVdt3wR'),
     provideAnimations()
 ]
 };

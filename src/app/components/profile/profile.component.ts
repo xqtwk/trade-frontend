@@ -34,4 +34,10 @@ export class ProfileComponent implements OnInit {
 
     });
   }
+
+  startChat(): void {
+    if(this.username) {
+      this.router.navigate(['/chat', this.username]);
+    }
+  }
 }
