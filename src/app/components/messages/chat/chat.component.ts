@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ChatMessage} from "../../../models/chat-message";
 import {ChatService} from "../../../services/chat/chat.service";
@@ -6,21 +6,25 @@ import {UserService} from "../../../services/user/user.service";
 import {FormsModule} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {BrowserModule} from "@angular/platform-browser";
+import {ChatListComponent} from "../chatlist/chatlist.component";
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ChatListComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit{
+  @ViewChild('messageList') private messageList!: ElementRef;
   recipientUsername: string | null | undefined;
   messages: ChatMessage[] = [];
   newMessage: string = '';
   username: string | null = this.userService.getUserNicknameFromToken(); // This should be dynamically set based on the authenticated user
 
-  constructor(private chatService: ChatService, private userService: UserService, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private chatService: ChatService, private userService: UserService, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
+
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -66,5 +70,12 @@ export class ChatComponent implements OnInit{
   ngOnDestroy(): void {
     this.chatService.disconnect();
   }
-
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+  private scrollToBottom(): void {
+    try {
+      this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
+    } catch (err) {}
+  }
 }

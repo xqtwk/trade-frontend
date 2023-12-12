@@ -5,3 +5,21 @@
 .align-right {
   text-align: right;
 }
+/* Style for scrollbar track (the background) */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent; /* or any color of your choice */
+}
+
+/* Style for scrollbar handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--text); /* or any color of your choice */
+  border-radius: 10px; /* optional, for rounded corners */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color when hovering over the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* width of the scrollbar */
+}
