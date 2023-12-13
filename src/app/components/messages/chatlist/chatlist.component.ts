@@ -20,6 +20,7 @@ export class ChatListComponent implements OnInit {
   selectedChatUser: string | null = null;
   chatList: any[] = []; // Replace with appropriate type
   username: string | null = this.userService.getUserNicknameFromToken();
+
   constructor(private chatService: ChatService, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class ChatListComponent implements OnInit {
         this.chatList = chatList;
       });
     }
+
   }
   selectChatUser(chatUser: string): void {
     this.selectedChatUser = chatUser;

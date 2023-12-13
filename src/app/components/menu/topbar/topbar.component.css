@@ -1,3 +1,6 @@
+.notified {
+  background-color: red !important;
+}
 .notifications, .balance {
   font-size: 14px;
   display: flex;

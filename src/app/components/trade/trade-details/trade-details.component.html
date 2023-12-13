@@ -1,0 +1,10 @@
+<div *ngIf="currentTrade">
+  <h2>Trade Details</h2>
+  <p>Trade ID: {{ currentTrade.id }}</p>
+  <p>Asset ID: {{ currentTrade.assetId }}</p>
+  <p>Amount: {{ currentTrade.amount }}</p>
+  <!-- Add more trade details as needed -->
+</div>
+<div *ngIf="!currentTrade">
+  <p>No active trades.</p>
+</div>

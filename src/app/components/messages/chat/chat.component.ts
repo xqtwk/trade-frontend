@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {BrowserModule} from "@angular/platform-browser";
 import {ChatListComponent} from "../chatlist/chatlist.component";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
   selector: 'app-messages',
@@ -21,7 +22,6 @@ export class ChatComponent implements OnInit{
   messages: ChatMessage[] = [];
   newMessage: string = '';
   username: string | null = this.userService.getUserNicknameFromToken(); // This should be dynamically set based on the authenticated user
-
   constructor(private chatService: ChatService, private userService: UserService, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
 
   }
@@ -78,4 +78,5 @@ export class ChatComponent implements OnInit{
       this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
     } catch (err) {}
   }
+
 }

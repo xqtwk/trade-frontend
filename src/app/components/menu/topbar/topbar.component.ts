@@ -6,6 +6,8 @@ import {authGuard} from "../../../services/guard/auth.guard";
 import {UserService} from "../../../services/user/user.service";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {Subscription} from "rxjs";
+import {ChatService} from "../../../services/chat/chat.service";
+import {ChatMessage} from "../../../models/chat-message";
 
 @Component({
   selector: 'app-topbar',
@@ -18,21 +20,24 @@ export class TopbarComponent implements OnInit{
   dropdownOpen = false;
   username: string | null | undefined = '';
   balance: number | undefined;
+  userRole: string = "";
   private authSubscription: Subscription | undefined;
   constructor(private eRef: ElementRef,
               public authService: AuthenticationService,
               private router: Router,
-              private userService: UserService) {
+              private userService: UserService, private chatService: ChatService) {
 
   }
+
   ngOnInit(): void {
     this.authSubscription = this.authService.isAuthenticatedObservable.subscribe(
       (isAuthenticated) => {
-        if (isAuthenticated) {
+        if (isAuthenticated && this.username != null) {
           this.userService.getPrivateUserData().subscribe(
             (response: UserPrivateDataResponse) => {
               this.username = response.username;
               this.balance = response.balance;
+              this.userRole = response.role;
             }
           );
         } else {

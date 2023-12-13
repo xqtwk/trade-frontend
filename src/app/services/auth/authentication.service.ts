@@ -17,7 +17,6 @@ export class AuthenticationService {
 
   private isAuthenticated = new BehaviorSubject<boolean>(this.checkToken());
 
-
   constructor(private http: HttpClient) {
   }
   setAuthenticated(authenticated: boolean): void {

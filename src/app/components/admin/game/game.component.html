@@ -1,0 +1,21 @@
+<div *ngFor="let game of games">
+  {{ game.id }}
+  {{ game.name }}
+  <button (click)="deleteGame(game.id)">Delete</button>
+  <button (click)="openUpdateForm(game)">Update</button>
+</div>
+<div *ngIf="isUpdating">
+  <div class="modal">
+    <form [formGroup]="updateGameForm" (ngSubmit)="onUpdateSubmit()">
+      <input formControlName="name" placeholder="name">
+      <button type="submit">Update Game</button>
+      <button (click)="closeUpdateForm()">Close</button>
+    </form>
+  </div>
+</div>
+<div>
+  <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+    <input formControlName="name" placeholder="name">
+    <button type="submit">Create Game</button>
+  </form>
+</div>
