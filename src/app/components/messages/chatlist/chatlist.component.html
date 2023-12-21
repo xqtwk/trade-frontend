@@ -1,0 +1,12 @@
+<div>Pasirinkite čat'ą:</div>
+<ul>
+    <li *ngFor="let chatUser of chatList"
+        [ngClass]="{
+        'selected-chat': chatUser === selectedChatUser
+        }"
+        (click)=" selectChatUser(chatUser); navigateToChat(chatUser)"
+        >
+        Chat with {{ chatUser }}
+    </li>
+</ul>
+

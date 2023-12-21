@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AuthenticationService} from "../../../../../services/auth/authentication.service";
 import {FormsModule} from "@angular/forms";
-import {MfaToggleRequest} from "../../../../../models/mfa-toggle-request";
+import {MfaToggleRequest} from "../../../../../models/auth/mfa-toggle-request";
 import {Router} from "@angular/router";
 import {MatDialogRef} from "@angular/material/dialog";
 

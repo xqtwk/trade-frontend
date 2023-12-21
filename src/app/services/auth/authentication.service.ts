@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {RegisterRequest} from "../../models/registration-request";
-import {AuthenticationRequest} from "../../models/authentication-request";
-import {AuthenticationResponse} from "../../models/authentication-response";
-import {VerificationRequest} from "../../models/verification-request";
+import {RegisterRequest} from "../../models/auth/registration-request";
+import {AuthenticationRequest} from "../../models/auth/authentication-request";
+import {AuthenticationResponse} from "../../models/auth/authentication-response";
+import {VerificationRequest} from "../../models/auth/verification-request";
 import {BehaviorSubject, Observable, tap} from "rxjs";
-import {MfaToggleRequest} from "../../models/mfa-toggle-request";
-import {MfaSetupResponse} from "../../models/mfa-setup-response";
+import {MfaToggleRequest} from "../../models/auth/mfa-toggle-request";
+import {MfaSetupResponse} from "../../models/auth/mfa-setup-response";
 import {environment} from "../../../environments/environment";
 
 @Injectable({
@@ -16,7 +16,6 @@ export class AuthenticationService {
   private baseUrl = environment.apiUrl + 'auth';
 
   private isAuthenticated = new BehaviorSubject<boolean>(this.checkToken());
-
 
   constructor(private http: HttpClient) {
   }

@@ -1,0 +1,30 @@
+<div>Žaidimas: {{gameName}}</div>
+<div>Kategorjios:</div>
+<div *ngFor="let assetType of assetTypes">
+  <a>
+    {{ assetType.id }} {{ assetType.name }}
+  </a>
+</div>
+
+<div>Skelbimai:</div>
+<div *ngIf="assets && assets.length > 0; else noAssetsFound">
+  <div *ngFor="let asset of assets">
+    <div class="my-1 p-1 flex flex-row max-w-fit bg-dark">
+      <div class="p-1">Skelbimas:</div>
+      <div class="p-1">      <p>ID: {{ asset.id }} </p></div>
+      <div class="p-1">  <p>Name: {{ asset.name }} </p></div>
+      <div class="p-1">      <p>Description: {{ asset.description }} </p></div>
+      <div class="p-1">      <p>Price: {{ asset.price }} </p></div>
+      <div class="p-1">      <p>Amount: {{asset.amount}} </p></div>
+      <div class="p-1">      <p>Seller: {{asset.user.username}} </p></div>
+      <button class="ml-1 p-1 px-4 border border-border rounded">Pirkti</button>
+      <button (click)="initiateTrade(asset.id, asset.price)">Buy</button>
+
+
+    </div>
+  </div>
+</div>
+<ng-template #noAssetsFound>
+  <p>No assets found for this game.</p>
+</ng-template>
+

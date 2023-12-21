@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {ChatListComponent} from "./chatlist/chatlist.component";
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    ChatListComponent
+  ],
   templateUrl: './messages.component.html',
   styleUrl: './messages.component.css'
 })

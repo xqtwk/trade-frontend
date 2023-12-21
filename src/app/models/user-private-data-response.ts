@@ -1,4 +1,4 @@
-import {Transaction} from "./transaction";
+import {Transaction} from "./payments/transaction";
 
 export interface UserPrivateDataResponse {
   id: number;

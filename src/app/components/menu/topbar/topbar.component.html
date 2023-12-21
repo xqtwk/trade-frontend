@@ -47,10 +47,15 @@
           <a routerLink="profile/settings" class="hover:bg-border px-2">
             <p class="ml-3 my-1.5">Nustatymai</p>
           </a>
+          <div class="line border-t border-border my-1 mx-3" *ngIf ="(userRole == 'ADMIN')"></div>
+          <a routerLink="admin" class="hover:bg-border px-2" *ngIf ="(userRole == 'ADMIN')">
+            <p class="ml-3 my-1.5">Admin</p>
+          </a>
           <div class="line border-t border-border my-1 mx-3"></div>
           <a class="hover:bg-border px-2">
             <button class="ml-3 my-1.5" (click)="onLogout()">Atsijungti</button>
           </a>
+
         </nav>
       </div>
 

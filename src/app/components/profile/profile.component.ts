@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log(this.userService.getUserRoleFromToken());
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username');
       if (!this.username) {
@@ -33,5 +34,11 @@ export class ProfileComponent implements OnInit {
       );
 
     });
+  }
+
+  startChat(): void {
+    if(this.username) {
+      this.router.navigate(['/chat', this.username]);
+    }
   }
 }

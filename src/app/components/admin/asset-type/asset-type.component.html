@@ -1,0 +1,28 @@
+<div *ngFor="let assetType of assetTypes">
+  {{ assetType.id }} {{ assetType.name }} {{ assetType.game.name }}
+  <button (click)="deleteAssetType(assetType.id)">Delete</button>
+  <button (click)="openUpdateForm(assetType)">Update</button>
+</div>
+
+<div *ngIf="isUpdating">
+  <div class="modal">
+    <form [formGroup]="updateAssetTypeForm" (ngSubmit)="onUpdateSubmit()">
+      <input formControlName="name" placeholder="Asset Type Name">
+      <select formControlName="gameId">
+        <option *ngFor="let game of games" [ngValue]="game.id">{{ game.name }}</option>
+      </select>
+      <button type="submit">Update Asset Type</button>
+      <button (click)="closeUpdateForm()">Close</button>
+    </form>
+  </div>
+</div>
+
+<div>
+  <form [formGroup]="assetTypeForm" (ngSubmit)="onSubmit()">
+    <input formControlName="name" placeholder="Asset Type Name">
+    <select formControlName="gameId">
+      <option *ngFor="let game of games" [value]="game.id">{{ game.name }}</option>
+    </select>
+    <button type="submit">Create Asset Type</button>
+  </form>
+</div>
