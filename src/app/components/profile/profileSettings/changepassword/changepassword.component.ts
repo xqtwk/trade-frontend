@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../../../services/user/user.service";
-import {ChangePasswordRequest} from "../../../../models/change-password-request";
+import {ChangePasswordRequest} from "../../../../models/auth/change-password-request";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 

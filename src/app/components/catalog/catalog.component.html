@@ -1,6 +1,8 @@
-<p>catalog works!</p>
-<div *ngFor="let game of games">
-  <a [routerLink]="['/catalog', game.name]">
-    {{ game.id }} - {{ game.name }}
-  </a>
+<div class="container">
+  <p class="block text-sm font-medium mb-2">catalog works!</p>
+  <div *ngFor="let game of games" class="mb-2">
+    <a [routerLink]="['/catalog', game.name]" class="border border-border rounded px-0.5 py-1 block hover:bg-gray-100">
+      {{ game.id }} - {{ game.name }}
+    </a>
+  </div>
 </div>

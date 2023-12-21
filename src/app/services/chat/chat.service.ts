@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {Stomp} from "@stomp/stompjs";
-import {ChatMessage} from "../../models/chat-message";
+import {ChatMessage} from "../../models/chat/chat-message";
 import SockJS from "sockjs-client";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";

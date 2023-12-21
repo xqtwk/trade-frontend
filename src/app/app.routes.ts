@@ -21,6 +21,7 @@ import {AssetComponent} from "./components/admin/asset/asset.component";
 import {AssetTypeComponent} from "./components/admin/asset-type/asset-type.component";
 import {CatalogGameComponent} from "./components/catalog/catalog-game/catalog-game/catalog-game.component";
 import {TradeDetailsComponent} from "./components/trade/trade-details/trade-details.component";
+import {TradeComponent} from "./components/trade/trade.component";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
@@ -40,6 +41,6 @@ export const routes: Routes = [
   {path: 'admin/games', component: GameComponent, canActivate: [authGuard,adminGuard]},
   {path: 'admin/assets', component: AssetComponent, canActivate: [authGuard,adminGuard]},
   {path: 'admin/asset-types', component: AssetTypeComponent, canActivate: [authGuard,adminGuard]},
-  {path: 'trade-details/:tradeId', component: TradeDetailsComponent, canActivate: [authGuard] }
+  {path: 'trade/:tradeId', component: TradeComponent, canActivate: [authGuard] }
 
 ];

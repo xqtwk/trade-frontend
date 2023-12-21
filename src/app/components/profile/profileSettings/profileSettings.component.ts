@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {UserService} from "../../../services/user/user.service";
-import {ChangePasswordRequest} from "../../../models/change-password-request";
+import {ChangePasswordRequest} from "../../../models/auth/change-password-request";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ChangePasswordComponent} from "./changepassword/changepassword.component";
 import {ToggleMfaComponent} from "./mfa/toggle-mfa/toggle-mfa.component";

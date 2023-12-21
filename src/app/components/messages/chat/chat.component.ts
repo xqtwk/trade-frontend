@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ChatMessage} from "../../../models/chat-message";
+import {ChatMessage} from "../../../models/chat/chat-message";
 import {ChatService} from "../../../services/chat/chat.service";
 import {UserService} from "../../../services/user/user.service";
 import {FormsModule} from "@angular/forms";

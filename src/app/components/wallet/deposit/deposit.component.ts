@@ -4,7 +4,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 import {UserService} from "../../../services/user/user.service";
 import {RapydService} from "../../../services/rapyd/rapyd.service";
-import {DepositRequest} from "../../../models/deposit-request";
+import {DepositRequest} from "../../../models/payments/deposit-request";
 declare let Frames: any;
 
 @Component({

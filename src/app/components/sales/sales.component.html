@@ -1,5 +1,5 @@
 <p>sales works!</p>
-<div *ngFor="let trade of senderTrades">
+<div *ngFor="let trade of tradeList">
   <p>Trade with {{ trade.receiverUsername }} for {{ trade.amount }}</p>
-  <button (click)="openTradeDetails(trade.id)">Open Trade Details</button>
+  <button (click)="openTradeDetails(trade.id.toString())">Open Trade Details</button>
 </div>

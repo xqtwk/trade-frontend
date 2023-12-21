@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {UserPrivateDataResponse} from "../../models/user-private-data-response";
 import {HttpClient} from "@angular/common/http";
-import {ChangePasswordRequest} from "../../models/change-password-request";
+import {ChangePasswordRequest} from "../../models/auth/change-password-request";
 import {jwtDecode} from 'jwt-decode';
 import {UserPublicDataResponse} from "../../models/user-public-data-response";
 import {BehaviorSubject, Observable} from "rxjs";

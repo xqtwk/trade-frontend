@@ -5,7 +5,8 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "../user/user.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Stomp} from "@stomp/stompjs";
-import {ChatMessage} from "../../models/chat-message";
+import {ChatMessage} from "../../models/chat/chat-message";
+import {TradeResponse} from "../../models/trade/trade-response";
 @Injectable({
   providedIn: 'root'
 })
@@ -16,12 +17,12 @@ export class TradeService {
   currentActiveChat: string | null = null;
 
   constructor(private http: HttpClient, private userService: UserService) {}
-  fetchSenderTrades(): Observable<any[]> {
-    // Replace 'your-api-endpoint-for-sender-trades' with the actual API endpoint
-    const apiUrl = environment.apiUrl + 'ws';
 
-    // Make an HTTP GET request to fetch sender's trades
-    return this.http.get<any[]>(apiUrl);
+  getTradeList(username: string): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list/${username}`);
+  }
+  getTradeDetails(tradeId: number): Observable<TradeResponse> {
+    return this.http.get<TradeResponse>(`${environment.apiUrl}trade/${tradeId}`);
   }
   initializeWebSocketConnection(username: string): void {
     const serverUrl = environment.apiUrl + 'ws';
@@ -31,7 +32,7 @@ export class TradeService {
 
     this.stompClient.connect({}, () => {
       console.log('Connected to WS');
-      this.subscribeToChat(username);
+      //this.subscribeToChat(username);
       this.subscribeToTrade(username);
     }, (error: any) => {
       console.log('Error in WS connection:', error);
@@ -48,7 +49,7 @@ export class TradeService {
 
   private subscribeToTrade(username: string): void {
     // Use the actual username dynamically here
-    const tradeDestination = `/user/${username}/queue/trade-initiation`;
+    const tradeDestination = `/user/${username}/queue/trade`;
 
     this.stompClient.subscribe(tradeDestination, (message: any) => {
       if (message.body) {

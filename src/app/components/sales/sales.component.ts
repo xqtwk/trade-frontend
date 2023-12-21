@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Router} from "@angular/router";
 import {TradeService} from "../../services/trade/trade.service";
+import {UserService} from "../../services/user/user.service";
+import {TradeResponse} from "../../models/trade/trade-response";
 
 @Component({
   selector: 'app-sales',
@@ -10,18 +12,21 @@ import {TradeService} from "../../services/trade/trade.service";
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
 })
-export class SalesComponent {
-  senderTrades: any[] = []; // Replace 'any[]' with the actual type of your trades
-
-  constructor(private router: Router, private tradeService: TradeService) {}
+export class SalesComponent implements OnInit {
+  tradeList: TradeResponse[] = []; // Replace 'any[]' with the actual type of your trades
+  username: string | null = this.userService.getUserNicknameFromToken();
+  constructor(private router: Router, private tradeService: TradeService, private userService: UserService) {}
   ngOnInit(): void {
     // Fetch sender's trades from your TradeService
-    this.tradeService.fetchSenderTrades().subscribe(trades => {
-      this.senderTrades = trades;
-    });
+    if (this.username) {
+      this.tradeService.getTradeList(this.username).subscribe(tradeList => {
+        console.log("g");
+        this.tradeList = tradeList;
+        console.log(tradeList);
+      });
+    }
   }
   openTradeDetails(tradeId: string) {
-    // Navigate to the TradeDetailsComponent route with the tradeId as a parameter
-    this.router.navigate(['/trade-details', tradeId]);
+    this.router.navigate(['/trade', tradeId]);
   }
 }

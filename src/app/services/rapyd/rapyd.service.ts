@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DepositRequest} from "../../models/deposit-request";
+import {DepositRequest} from "../../models/payments/deposit-request";
 import {Observable} from "rxjs";
-import {DepositResponse} from "../../models/deposit-response";
+import {DepositResponse} from "../../models/payments/deposit-response";
 import {environment} from "../../../environments/environment";
 
 @Injectable({

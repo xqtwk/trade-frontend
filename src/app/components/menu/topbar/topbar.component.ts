@@ -7,7 +7,7 @@ import {UserService} from "../../../services/user/user.service";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {Subscription} from "rxjs";
 import {ChatService} from "../../../services/chat/chat.service";
-import {ChatMessage} from "../../../models/chat-message";
+import {ChatMessage} from "../../../models/chat/chat-message";
 
 @Component({
   selector: 'app-topbar',
