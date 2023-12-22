@@ -1,5 +1,9 @@
 <div *ngIf="currentTrade">
+  <!-- Existing trade details -->
   <p>TradeResponse with {{ currentTrade.senderUsername }} for {{ currentTrade.amount }}</p>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed">Confirm Receipt</button>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername">Confirm Sending</button>
+
+  <!-- Chat component inclusion -->
+  <app-messages [recipientTrade]="getChatRecipient()"></app-messages>
 </div>

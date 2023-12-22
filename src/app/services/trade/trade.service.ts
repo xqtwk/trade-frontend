@@ -12,9 +12,7 @@ import {TradeResponse} from "../../models/trade/trade-response";
 })
 export class TradeService {
   private stompClient: any;
-  private chatMessages: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
   private tradeUpdates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  currentActiveChat: string | null = null;
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -39,14 +37,6 @@ export class TradeService {
     });
   }
 
-  private subscribeToChat(username: string): void {
-    this.stompClient.subscribe(`/user/${username}/queue/messages`, (message: any) => {
-      if (message.body) {
-        this.chatMessages.next([...this.chatMessages.value, JSON.parse(message.body)]);
-      }
-    });
-  }
-
   private subscribeToTrade(username: string): void {
     // Use the actual username dynamically here
     const tradeDestination = `/user/${username}/queue/trade`;
@@ -58,20 +48,6 @@ export class TradeService {
     });
   }
 
-  sendMessage(chatMessage: ChatMessage): void {
-    this.stompClient.send('/app/chat', {}, JSON.stringify(chatMessage));
-  }
-
-/*  initiateTrade(tradeRequest: any): Observable<string> {
-    return new Observable<string>((observer) => {
-      this.stompClient.send('/app/trade/initiate', {}, JSON.stringify(tradeRequest));
-      setTimeout(() => {
-        const tradeId = '12345'; // Replace with the actual trade ID when received from the server
-        observer.next(tradeId);
-        observer.complete();
-      }, 1000); // Simulating a delay for the response
-    });
-  }*/
   initiateTrade(tradeRequest: any): Observable<string> {
     const tradeRequestData = JSON.stringify(tradeRequest);
 
@@ -93,10 +69,6 @@ export class TradeService {
 
   confirmTrade(tradeId: string, username: string): void {
     this.stompClient.send('/app/trade/confirm', {}, JSON.stringify({ tradeId, username }));
-  }
-
-  getMessages(): Observable<ChatMessage[]> {
-    return this.chatMessages.asObservable();
   }
 
   getTradeUpdates(): Observable<any> {

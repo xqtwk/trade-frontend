@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ChatMessage} from "../../../models/chat/chat-message";
 import {ChatService} from "../../../services/chat/chat.service";
@@ -18,6 +18,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 })
 export class ChatComponent implements OnInit{
   @ViewChild('messageList') private messageList!: ElementRef;
+  @Input() recipientTrade: string | null | undefined;
   recipientUsername: string | null | undefined;
   messages: ChatMessage[] = [];
   newMessage: string = '';
@@ -28,7 +29,11 @@ export class ChatComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.recipientUsername = params.get('username');
+      if (!this.recipientTrade) {
+        this.recipientUsername = params.get('username');
+      } else {
+        this.recipientUsername = this.recipientTrade;
+      }
       console.log("Recipient username: " + this.recipientUsername);
 
       if (this.username != null && this.recipientUsername != null) {
@@ -67,6 +72,7 @@ export class ChatComponent implements OnInit{
     }
   }
 
+  // DISCONNECT
   ngOnDestroy(): void {
     this.chatService.disconnect();
   }
