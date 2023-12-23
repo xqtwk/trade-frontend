@@ -1,6 +1,6 @@
 <div *ngIf="currentTrade">
   <!-- Existing trade details -->
-  <p>TradeResponse with {{ currentTrade.senderUsername }} for {{ currentTrade.amount }}</p>
+  <p>TradeResponse with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} </p>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed">Confirm Receipt</button>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername">Confirm Sending</button>
 

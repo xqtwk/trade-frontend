@@ -26,4 +26,13 @@ export class AssetService {
   deleteAsset(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
+
+  getAsset(id: number): Observable<AssetDetailsDto> {
+    return this.http.get<AssetDetailsDto>(`${this.baseUrl}/${id}`);
+  }
+
+  getAllUserAssets(username: string): Observable<AssetDetailsDto[]> {
+    return this.http.get<AssetDetailsDto[]>(`${this.baseUrl}/user/${username}`);
+  }
+
 }

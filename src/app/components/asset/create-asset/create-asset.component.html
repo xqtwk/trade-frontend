@@ -1,0 +1,48 @@
+<div class="flex justify-center items-center flex-col pt-10 max-w-2/5">
+  <div class="flex flex-col w-2/5 min-w-fit">
+  <h1 class="text-4xl font-bold">Sukurti skelbimą</h1>
+  <div class="awd bg-darklight min-w-max px-5 pt-1 pb-6 rounded-2xl ">
+    <form [formGroup]="assetForm" (ngSubmit)="onSubmit()" class="flex flex-col">
+      <div class="flex flex-row min-w-max">
+        <div class="flex flex-col">
+          <label>
+            Pasirinkite žaidimą:
+          </label>
+          <!-- Game Select -->
+          <select formControlName="gameId" (change)="onGameSelect()" class="w-72">
+            <option value="">Žaidimo pavadinimas</option>
+            <option *ngFor="let game of games" [ngValue]="game.id">{{ game.name }}</option>
+          </select>
+        </div>
+        <!-- Asset Type Select, shown only if a game is selected -->
+        <div *ngIf="isGameSelected" class="flex flex-col pl-14 flex-grow">
+          <label>Pasirinkite tipą:</label>
+          <select formControlName="assetTypeId" (change)="onAssetTypeSelect()" class="w-72">
+            <option value="">Prekės tipas</option>
+            <option *ngFor="let assetType of assetTypes" [ngValue]="assetType.id">{{ assetType.name }}</option>
+          </select>
+        </div>
+      </div>
+      <!-- Remaining Fields, shown only if an asset type is selected -->
+      <div *ngIf="isAssetTypeSelected" class="flex flex-col">
+        <div class="py-1">
+          <input formControlName="name" placeholder="Asset Name">
+        </div>
+        <div class="py-5">
+          <h1>Įveskite aprašymą</h1>
+          <textarea appAutoExpand rows="4" class="w-full resize-none overflow-hidden rounded px-3 py-2"></textarea>
+        </div>
+        <div>
+          <input type="number" formControlName="price" placeholder="Price">
+        </div>
+        <div>
+          <input type="number" formControlName="amount" placeholder="Amount (optional)">
+        </div>
+        <div>
+          <button type="submit">Create Asset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<p>update-asset works!</p>
+<div>
+  <div class="modal">
+    <form [formGroup]="updateAssetForm" (ngSubmit)="onUpdateSubmit()">
+      <input formControlName="name" placeholder="Asset Name">
+      <textarea formControlName="description" placeholder="Description"></textarea>
+      <input type="number" formControlName="price" placeholder="Price">
+      <input type="number" formControlName="amount" placeholder="Amount (optional)">
+      <button type="submit">Update Asset</button>
+      <button>Close</button>
+    </form>
+  </div>
+</div>
