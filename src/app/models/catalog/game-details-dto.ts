@@ -1,4 +1,4 @@
-import {AssetDetailsDto} from "./asset-details-dto";
+import {AssetDetailsDto} from "../asset/asset-details-dto";
 import {AssetTypeDetailsDto} from "./asset-type-details-dto";
 
 export interface GameDetailsDto {

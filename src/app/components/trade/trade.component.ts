@@ -5,11 +5,12 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChatMessage} from "../../models/chat/chat-message";
 import {ActivatedRoute} from "@angular/router";
+import {ChatComponent} from "../messages/chat/chat.component";
 
 @Component({
   selector: 'app-trade',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ChatComponent],
   templateUrl: './trade.component.html',
   styleUrl: './trade.component.css'
 })
@@ -19,6 +20,8 @@ export class TradeComponent implements OnInit{
   tradeId: number | undefined;
 
   constructor(private tradeService: TradeService, private userService: UserService, private route: ActivatedRoute) {}
+
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const tradeIdParam = params.get('tradeId');
@@ -41,43 +44,26 @@ export class TradeComponent implements OnInit{
     }
     this.tradeService.getTradeUpdates().subscribe(tradeUpdate => {
       if (tradeUpdate) {
-        this.currentTrade = tradeUpdate;
+        this.currentTrade = { ...tradeUpdate };
         console.log('Trade Update:', tradeUpdate);
       }
     });
   }
-  /*ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const tradeId = params.get('tradeId');
-      this.tradeService.initializeWebSocketConnection(tradeId);
-      console.log("tradeId: " + this.tradeId);
-    });
-    const username = this.userService.getUserNicknameFromToken(); // Fetch the current user's username
-    if (username) {
-      this.tradeService.initializeWebSocketConnection(username);
-    }else {
-      console.error('Username is not available for WebSocket connection');
-    }
-    this.tradeService.getTradeUpdates().subscribe(tradeUpdate => {
-      if (tradeUpdate) {
-        this.currentTrade = tradeUpdate;
-        console.log('Trade Update:', tradeUpdate);
-      }
-    });
-  }*/
 
+  getChatRecipient(): string | null {
+    if (!this.currentTrade || !this.username) return null;
 
-  initiateTrade(assetId: number, amount: number): void {
-    const buyerUserId = 'buyer-user-id'; // Fetch the buyer's user ID
-    this.tradeService.initiateTrade({ buyerUserId, assetId, amount });
+    // Determine the chat recipient based on the user's role in the trade
+    return this.username === this.currentTrade.senderUsername ? this.currentTrade.receiverUsername : this.currentTrade.senderUsername;
   }
+
 
   confirmTrade(tradeId: string): void {
     if (this.username)
     this.tradeService.confirmTrade(tradeId, this.username);
   }
 
-  // Remember to disconnect on component destruction
+  // DISCONNECT
   ngOnDestroy() {
     this.tradeService.disconnect();
   }

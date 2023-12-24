@@ -1,0 +1,7 @@
+<div *ngFor="let asset of assets">
+  {{ asset.id }} {{ asset.name }}
+  <button (click)="deleteAsset(asset.id)">Delete</button>
+  <button (click)="openUpdatePage(asset.id)">Update</button>
+</div>
+<a routerLink="/assets/new">Create new asset</a>
+

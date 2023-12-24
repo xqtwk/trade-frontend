@@ -8,7 +8,7 @@ import {GameDetailsDto} from "../../../models/catalog/game-details-dto";
 import {CommonModule} from "@angular/common";
 import {GameCreationDto} from "../../../models/catalog/game-creation-dto";
 import {Observable} from "rxjs";
-import {AssetDetailsDto} from "../../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../../models/asset/asset-details-dto";
 
 @Component({
   selector: 'app-asset-type',

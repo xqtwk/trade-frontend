@@ -5,8 +5,8 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {GameDetailsDto} from "../../models/catalog/game-details-dto";
 import {GameCreationDto} from "../../models/catalog/game-creation-dto";
-import {AssetCreationDto} from "../../models/catalog/asset-creation-dto";
-import {AssetDetailsDto} from "../../models/catalog/asset-details-dto";
+import {AssetCreationDto} from "../../models/asset/asset-creation-dto";
+import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
 import {AssetTypeCreationDto} from "../../models/catalog/asset-type-creation-dto";
 import {AssetTypeDetailsDto} from "../../models/catalog/asset-type-details-dto";
 
