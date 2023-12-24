@@ -4,9 +4,9 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatButtonModule} from "@angular/material/button";
 import {GameDetailsDto} from "../../../models/catalog/game-details-dto";
 import {AssetTypeDetailsDto} from "../../../models/catalog/asset-type-details-dto";
-import {AssetCreationDto} from "../../../models/catalog/asset-creation-dto";
+import {AssetCreationDto} from "../../../models/asset/asset-creation-dto";
 import {Observable} from "rxjs";
-import {AssetDetailsDto} from "../../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../../models/asset/asset-details-dto";
 import {AssetService} from "../../../services/asset/asset.service";
 import {UserService} from "../../../services/user/user.service";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
@@ -36,30 +36,39 @@ export class CreateAssetComponent implements OnInit {
     this.assetForm = this.fb.group({
       gameId: ['', Validators.required],
       assetTypeId: ['', Validators.required],
-      userId: ['', Validators.required], // Assuming user ID is required; adjust as needed
+      userId: [''],
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       price: ['', Validators.required],
-      amount: ['']
+      amount: [''],
+      unlimited: [true]
     });
   }
   ngOnInit(): void {
+    this.userService.getPrivateUserData().subscribe({
+      next: (data) =>{ this.user = data; console.log("loaded user " + this.user.id)},
+      error: (error) => console.error("erroro")
+    });
     this.loadGames();
     this.loadAssetTypes(); // Assuming you have a method to load asset types
-
+    this.assetForm.get('unlimited')?.valueChanges.subscribe((isChecked) => {
+      const amountControl = this.assetForm.get('amount');
+      if (isChecked) {
+        amountControl?.disable();
+        amountControl?.setValue(null);
+      } else {
+        amountControl?.enable();
+      }
+    });
   }
   private createAsset(dto: AssetCreationDto): Observable<AssetDetailsDto> {
     return this.assetService.createAsset(dto);
   }
   onSubmit(): void {
-    this.userService.getPrivateUserData().subscribe({
-      next: (data) =>{ this.user = data; console.log("loaded user " + this.user.id)},
-      error: (error) => console.error("erroro")
-    });
     this.assetForm.patchValue({
       userId: this.user?.id
     });
-    console.log("assetformvalue " + this.assetForm.value.id);
+    console.log("assetformvalue ", this.assetForm.value);
     if (this.assetForm.valid) {
       const newAssetDto: AssetCreationDto = this.assetForm.value;
       this.createAsset(newAssetDto).subscribe(
@@ -67,7 +76,7 @@ export class CreateAssetComponent implements OnInit {
           console.log("asset created" + createdAsset.name)
         },
         (error) => {
-          // Handle error
+          console.log("something happened");
         }
       );
     }

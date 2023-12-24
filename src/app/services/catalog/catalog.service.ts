@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {GameDetailsDto} from "../../models/catalog/game-details-dto";
-import {AssetDetailsDto} from "../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
 import {AssetTypeDetailsDto} from "../../models/catalog/asset-type-details-dto";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../user/user.service";

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {AssetDetailsDto} from "../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
 import {GameDetailsDto} from "../../models/catalog/game-details-dto";
 import {AssetTypeDetailsDto} from "../../models/catalog/asset-type-details-dto";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AdminService} from "../../services/admin/admin.service";
 import {CatalogService} from "../../services/catalog/catalog.service";
-import {AssetCreationDto} from "../../models/catalog/asset-creation-dto";
+import {AssetCreationDto} from "../../models/asset/asset-creation-dto";
 import {Observable} from "rxjs";
 import {AssetService} from "../../services/asset/asset.service";
 import {CommonModule} from "@angular/common";
@@ -123,7 +123,7 @@ export class AssetComponent {
 
 
   deleteAsset(id: number): void {
-    if (confirm('Are you sure you want to delete this asset?')) {
+    if (confirm('Ar esate tikras, kad norite pašalinti šią prekę?')) {
       this.assetService.deleteAsset(id).subscribe(() => {
         this.assets = this.assets.filter(asset => asset.id !== id);
         // Handle successful deletion

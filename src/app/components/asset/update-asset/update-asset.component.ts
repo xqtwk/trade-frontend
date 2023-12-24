@@ -4,20 +4,22 @@ import {CatalogService} from "../../../services/catalog/catalog.service";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AssetService} from "../../../services/asset/asset.service";
 import {UserService} from "../../../services/user/user.service";
-import {AssetDetailsDto} from "../../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../../models/asset/asset-details-dto";
 import {GameDetailsDto} from "../../../models/catalog/game-details-dto";
 import {AssetTypeDetailsDto} from "../../../models/catalog/asset-type-details-dto";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import {AssetCreationDto} from "../../../models/catalog/asset-creation-dto";
+import {AssetCreationDto} from "../../../models/asset/asset-creation-dto";
+import {AutoExpandDirective} from "../../../directives/auto-expand.directive";
 
 @Component({
   selector: 'app-update-asset',
   standalone: true,
   imports: [
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AutoExpandDirective
   ],
   templateUrl: './update-asset.component.html',
   styleUrl: './update-asset.component.css'
@@ -45,7 +47,8 @@ export class UpdateAssetComponent implements OnInit{
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
-      amount: [''] // Optional
+      amount: [''], // Optional
+      unlimited: [],
     });
   }
   ngOnInit(): void {
@@ -53,6 +56,15 @@ export class UpdateAssetComponent implements OnInit{
     this.loadAssetDetails(this.assetId);
     this.loadGames();
     this.loadAssetTypes(); // Assuming you have methods to load games and asset types
+    this.updateAssetForm.get('unlimited')?.valueChanges.subscribe((isChecked) => {
+      const amountControl = this.updateAssetForm.get('amount');
+      if (isChecked) {
+        amountControl?.disable();
+        amountControl?.setValue(null);
+      } else {
+        amountControl?.enable();
+      }
+    });
   }
 
   loadAssetDetails(assetId: number): void {
@@ -67,6 +79,11 @@ export class UpdateAssetComponent implements OnInit{
         price: asset.price,
         amount: asset.amount
       });
+      if (asset.amount == null) {
+        this.updateAssetForm.patchValue({
+          unlimited: true
+        });
+      }
     });
   }
   onUpdateSubmit(): void {

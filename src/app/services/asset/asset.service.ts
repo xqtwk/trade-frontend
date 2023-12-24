@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../user/user.service";
-import {AssetDetailsDto} from "../../models/catalog/asset-details-dto";
-import {AssetCreationDto} from "../../models/catalog/asset-creation-dto";
+import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
+import {AssetCreationDto} from "../../models/asset/asset-creation-dto";
 import {Observable} from "rxjs";
 
 @Injectable({

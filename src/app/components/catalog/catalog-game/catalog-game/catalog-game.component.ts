@@ -8,7 +8,7 @@ import {AssetTypeCreationDto} from "../../../../models/catalog/asset-type-creati
 import {Observable} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AssetDetailsDto} from "../../../../models/catalog/asset-details-dto";
+import {AssetDetailsDto} from "../../../../models/asset/asset-details-dto";
 import {TradeService} from "../../../../services/trade/trade.service";
 import {UserService} from "../../../../services/user/user.service";
 
