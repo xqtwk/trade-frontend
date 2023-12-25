@@ -7,7 +7,7 @@ import {CatalogService} from "../../../../services/catalog/catalog.service";
 import {AssetTypeCreationDto} from "../../../../models/catalog/asset-type-creation-dto";
 import {Observable} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AssetDetailsDto} from "../../../../models/asset/asset-details-dto";
 import {TradeService} from "../../../../services/trade/trade.service";
 import {UserService} from "../../../../services/user/user.service";
@@ -19,7 +19,7 @@ import {TradeResponse} from "../../../../models/trade/trade-response";
   selector: 'app-catalog-game',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule, FormsModule
+    CommonModule, ReactiveFormsModule, FormsModule, RouterLink
   ],
   templateUrl: './catalog-game.component.html',
   styleUrl: './catalog-game.component.css'

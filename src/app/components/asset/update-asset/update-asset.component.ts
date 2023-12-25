@@ -9,9 +9,12 @@ import {GameDetailsDto} from "../../../models/catalog/game-details-dto";
 import {AssetTypeDetailsDto} from "../../../models/catalog/asset-type-details-dto";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {NgIf} from "@angular/common";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AssetCreationDto} from "../../../models/asset/asset-creation-dto";
 import {AutoExpandDirective} from "../../../directives/auto-expand.directive";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorComponent} from "../../error/error.component";
+import {TradeService} from "../../../services/trade/trade.service";
 
 @Component({
   selector: 'app-update-asset',
@@ -24,33 +27,38 @@ import {AutoExpandDirective} from "../../../directives/auto-expand.directive";
   templateUrl: './update-asset.component.html',
   styleUrl: './update-asset.component.css'
 })
-export class UpdateAssetComponent implements OnInit{
+export class UpdateAssetComponent implements OnInit {
   assets: AssetDetailsDto[] = [];
   games: GameDetailsDto[] = [];
   assetTypes: AssetTypeDetailsDto[] = [];
   updateAssetForm: FormGroup;
   updatingAssetId: number | null = null;
-  user: UserPrivateDataResponse | undefined;
+  username: string | null = null;
   assetId: number | undefined;
+
   constructor(
     private adminService: AdminService,
     private catalogService: CatalogService,
     private fb: FormBuilder,
     private assetService: AssetService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private tradeService: TradeService
   ) {
     this.updateAssetForm = this.fb.group({
       gameId: ['', Validators.required],
       assetTypeId: ['', Validators.required],
       userId: ['', Validators.required], // If you need to update user ID
       name: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       price: ['', Validators.required],
       amount: [''], // Optional
       unlimited: [],
     });
   }
+
   ngOnInit(): void {
     this.assetId = Number(this.route.snapshot.paramMap.get('assetId'));
     this.loadAssetDetails(this.assetId);
@@ -65,6 +73,7 @@ export class UpdateAssetComponent implements OnInit{
         amountControl?.enable();
       }
     });
+
   }
 
   loadAssetDetails(assetId: number): void {
@@ -86,6 +95,7 @@ export class UpdateAssetComponent implements OnInit{
       }
     });
   }
+
   onUpdateSubmit(): void {
     if (this.updateAssetForm.valid && this.assetId !== undefined) {
       const updatedAssetDto: AssetCreationDto = this.updateAssetForm.value;
@@ -96,16 +106,24 @@ export class UpdateAssetComponent implements OnInit{
             this.assets[index] = updatedAsset;
           }
           console.log("success?");
+          this.router.navigate(['/assets/', this.assetId]);
         },
         error => {
+          this.dialog.open(ErrorComponent, {
+            data: {message: "Negalima redaguoti skelbimą, kai yra aktyvūs sandoriai, kuriuose jis dalyvauja."}
+          });
         }
       );
     }
   }
+
   loadGames(): void {
     console.log("fires")
     this.catalogService.getAllGames().subscribe({
-      next: (data) =>{ this.games = data; console.log("no games?")},
+      next: (data) => {
+        this.games = data;
+        console.log("no games?")
+      },
       error: (error) => console.error("erroro")
     });
   }
@@ -113,8 +131,28 @@ export class UpdateAssetComponent implements OnInit{
   loadAssetTypes(): void {
     console.log("fires")
     this.catalogService.getAllAssetTypes().subscribe({
-      next: (data) =>{ this.assetTypes = data; console.log(this.assetTypes)},
+      next: (data) => {
+        this.assetTypes = data;
+        console.log(this.assetTypes)
+      },
       error: (error) => console.error("erroro")
     });
+  }
+
+  deleteAsset(): void {
+    if (this.assetId) {
+      if (confirm('Ar esate tikras, kad norite pašalinti šią prekę?')) {
+        this.assetService.deleteAsset(this.assetId).subscribe(() => {
+          this.router.navigate(['/assets']);
+        }, error => {
+        });
+      }
+    }
+
+  }
+
+  // DISCONNECT
+  ngOnDestroy() {
+    this.tradeService.disconnect();
   }
 }

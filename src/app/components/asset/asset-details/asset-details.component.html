@@ -1,0 +1,26 @@
+<div>
+
+<div class="p-1">Skelbimas:</div>
+<div class="p-1">      <p>ID: {{ asset?.id }} </p></div>
+<div class="p-1">  <p>Name: {{ asset?.name }} </p></div>
+<div class="p-1">  <p>Tipas: {{ asset?.assetType?.name }} </p></div>
+<div class="p-1">  <p>Žaidimas: {{ asset?.assetType?.game?.name }} </p></div>
+<div class="p-1">      <p>Description: {{ asset?.description }} </p></div>
+<div class="p-1">      <p>Amount: {{ asset?.amount }} </p></div>
+<div class="p-1">      <p>Price: {{ asset?.price }} </p></div>
+<div class="p-1">      <p>Seller: {{asset?.user?.username}} </p></div>
+</div>
+<button (click)="openUpdatePage()">Update</button>
+<div>
+  <p>Pirkimas</p>
+  <div>
+    <input type="number" [(ngModel)]="purchaseAmount">
+    <button type="submit" (click)="initiateTrade(purchaseAmount)">Pirkti</button>
+  </div>
+</div>
+<div>
+  <ng-container *ngIf="showChat()">
+    <app-messages [recipientTrade]="asset?.user?.username"></app-messages>
+  </ng-container>
+</div>
+

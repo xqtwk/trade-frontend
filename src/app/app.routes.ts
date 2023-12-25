@@ -11,7 +11,6 @@ import {LoginComponent} from "./components/auth/login/login.component";
 import {authGuard} from "./services/guard/auth.guard";
 import {unauthGuard} from "./services/guard/unauth.guard";
 import {WalletComponent} from "./components/wallet/wallet.component";
-import {ChatListComponent} from "./components/messages/chatlist/chatlist.component";
 import {MessagesComponent} from "./components/messages/messages.component";
 import {AdminComponent} from "./components/admin/admin.component";
 import {adminGuard} from "./services/guard/admin.guard";
@@ -19,10 +18,11 @@ import {GameComponent} from "./components/admin/game/game.component";
 import {AssetComponent} from "./components/asset/asset.component";
 import {AssetTypeComponent} from "./components/admin/asset-type/asset-type.component";
 import {CatalogGameComponent} from "./components/catalog/catalog-game/catalog-game/catalog-game.component";
-import {TradeDetailsComponent} from "./components/trade/trade-details/trade-details.component";
 import {TradeComponent} from "./components/trade/trade.component";
 import {CreateAssetComponent} from "./components/asset/create-asset/create-asset.component";
 import {UpdateAssetComponent} from "./components/asset/update-asset/update-asset.component";
+import {AssetDetailsComponent} from "./components/asset/asset-details/asset-details.component";
+import {assetOwnerGuard} from "./services/guard/asset-owner.guard";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
@@ -44,5 +44,6 @@ export const routes: Routes = [
   {path: 'trade/:tradeId', component: TradeComponent, canActivate: [authGuard] },
   {path: 'assets', component: AssetComponent, canActivate: [authGuard] },
   {path: 'assets/new', component: CreateAssetComponent, canActivate: [authGuard] },
-  {path: 'assets/update/:assetId', component: UpdateAssetComponent, canActivate: [authGuard] }
+  {path: 'assets/:assetId', component: AssetDetailsComponent, canActivate: [authGuard] },
+  {path: 'assets/update/:assetId', component: UpdateAssetComponent, canActivate: [authGuard, assetOwnerGuard] }
 ];
