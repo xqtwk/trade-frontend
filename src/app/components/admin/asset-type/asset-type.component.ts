@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AssetTypeDetailsDto} from "../../../models/catalog/asset-type-details-dto";
-import {AssetTypeCreationDto} from "../../../models/catalog/asset-type-creation-dto";
+import {AssetTypeCreationDto, AssetTypeType} from "../../../models/catalog/asset-type-creation-dto";
 import {AdminService} from "../../../services/admin/admin.service";
 import {CatalogService} from "../../../services/catalog/catalog.service";
 import {GameDetailsDto} from "../../../models/catalog/game-details-dto";
@@ -26,6 +26,9 @@ export class AssetTypeComponent {
   updateAssetTypeForm: FormGroup;
   isUpdating: boolean = false;
   updatingAssetTypeId: number | null = null;
+
+  assetTypeTypes = Object.entries(AssetTypeType)
+    .map(([key, value]) => ({ label: value, value: key }));
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -33,11 +36,13 @@ export class AssetTypeComponent {
   ) {
     this.assetTypeForm = this.fb.group({
       name: ['', Validators.required] ,// Adjust according to AssetType properties
-      gameId: [null, Validators.required] // gameId added to the form
+      gameId: [null, Validators.required], // gameId added to the form
+      type: [Validators.required]
     });
     this.updateAssetTypeForm = this.fb.group({
       name: ['', Validators.required], // Adjust according to AssetType properties
-      gameId: [null, Validators.required] // Include gameId in the update form
+      gameId: [null, Validators.required], // Include gameId in the update form
+      type: [null, Validators.required]
     });
   }
 
@@ -64,6 +69,7 @@ export class AssetTypeComponent {
   onSubmit(): void {
     if (this.assetTypeForm.valid) {
       const newAssetTypeDto: AssetTypeCreationDto = this.assetTypeForm.value;
+      console.log(newAssetTypeDto);
       this.createAssetType(newAssetTypeDto).subscribe(
         (createdAssetType: AssetTypeDetailsDto) => {
           console.log('Game created successfully', createdAssetType.id);

@@ -6,6 +6,10 @@ import {FormsModule} from "@angular/forms";
 import {ChatMessage} from "../../models/chat/chat-message";
 import {ActivatedRoute} from "@angular/router";
 import {ChatComponent} from "../messages/chat/chat.component";
+import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
+import {AssetService} from "../../services/asset/asset.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorComponent} from "../error/error.component";
 
 @Component({
   selector: 'app-trade',
@@ -18,8 +22,12 @@ export class TradeComponent implements OnInit{
   username: string | null = this.userService.getUserNicknameFromToken(); // Fetch the current user's username
   currentTrade: any; // Replace 'any' with an appropriate type
   tradeId: number | undefined;
-
-  constructor(private tradeService: TradeService, private userService: UserService, private route: ActivatedRoute) {}
+  asset: AssetDetailsDto | undefined
+  constructor(private tradeService: TradeService,
+              private userService: UserService,
+              private route: ActivatedRoute,
+              private assetService: AssetService,
+              private dialog: MatDialog) {}
 
 
   ngOnInit(): void {
@@ -30,6 +38,11 @@ export class TradeComponent implements OnInit{
         if (this.tradeId) {
           this.tradeService.getTradeDetails(this.tradeId).subscribe(trade => {
             this.currentTrade = trade;
+            if (this.currentTrade && this.currentTrade.assetId) {
+              this.assetService.getAsset(this.currentTrade.assetId).subscribe(asset => {
+                this.asset = asset; // Setting the asset to the current trade
+              });
+            }
           });
         }
       } else {
