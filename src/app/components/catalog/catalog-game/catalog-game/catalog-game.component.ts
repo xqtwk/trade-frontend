@@ -11,6 +11,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AssetDetailsDto} from "../../../../models/asset/asset-details-dto";
 import {TradeService} from "../../../../services/trade/trade.service";
 import {UserService} from "../../../../services/user/user.service";
+import {ErrorComponent} from "../../../error/error.component";
+import {MatDialog} from "@angular/material/dialog";
+import {TradeResponse} from "../../../../models/trade/trade-response";
 
 @Component({
   selector: 'app-catalog-game',
@@ -38,7 +41,8 @@ export class CatalogGameComponent {
     private route: ActivatedRoute,
     private tradeService: TradeService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.assetTypeForm = this.fb.group({
       name: ['', Validators.required] ,// Adjust according to AssetType properties
@@ -53,9 +57,22 @@ export class CatalogGameComponent {
     this.userService.getPublicUserData(this.userService.getUserNicknameFromToken()).subscribe({
       next: (data) => {
         const buyerUserId = data.id; // Fetch the buyer's user ID
+        console.log('Initiating trade for assetId:', assetId, 'amount:', amount, 'buyerUserId:', buyerUserId);
+
         this.tradeService.initiateTrade({ buyerUserId, assetId, amount }).subscribe((tradeId: string) => {
-          console.log('Received tradeId:', tradeId); // Add this line for debugging
-          this.router.navigate(['/trade-details', tradeId]);
+          console.log('Received tradeId:', tradeId);
+          const numericTradeId = Number(tradeId);
+
+          this.tradeService.getTradeUpdates().subscribe((tradeDetails: TradeResponse) => {
+            console.log('Checking trade update for ID:', numericTradeId);
+
+            if (tradeDetails && tradeDetails.id === numericTradeId) {
+              console.log('Received new trade details:', tradeDetails);
+              this.router.navigate(['/trade', tradeDetails.id]);
+            }
+          });
+
+          this.router.navigate(['/trade', tradeId]);
         });
       },
       error: (error) => console.error("Error fetching user data: ", error)
@@ -74,6 +91,13 @@ export class CatalogGameComponent {
         console.error('Username is not available for WebSocket connection');
       }
     }
+    this.tradeService.getTradeErrors().subscribe(errorMessage => {
+      if (errorMessage) {
+        this.dialog.open(ErrorComponent, {
+          data: { message: errorMessage }
+        });
+      }
+    });
     // ... other initialization
   }
   loadAssetTypesForGame(gameName: string): void {

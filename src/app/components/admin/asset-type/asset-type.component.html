@@ -19,10 +19,16 @@
 
 <div>
   <form [formGroup]="assetTypeForm" (ngSubmit)="onSubmit()">
-    <input formControlName="name" placeholder="Asset Type Name">
-    <select formControlName="gameId">
+    <label>Įveskite pavadinimą</label>
+    <input formControlName="name" placeholder="Pavadinimas">
+    <label>Pasirinkite žaidimą</label>
+    <select formControlName="gameId" >
       <option *ngFor="let game of games" [value]="game.id">{{ game.name }}</option>
     </select>
-    <button type="submit">Create Asset Type</button>
+    <label>Pasirinkite prekės tipo tipą</label>
+    <select formControlName="type">
+      <option *ngFor="let assetType of assetTypeTypes" [value]="assetType.value">{{ assetType.label }}</option>
+    </select>
+    <button type="submit">Pridėti</button>
   </form>
 </div>
