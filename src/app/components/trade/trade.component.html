@@ -2,8 +2,10 @@
   <!-- Existing trade details -->
   <p>TradeResponse with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} status {{currentTrade.status}} assetname {{asset?.name}}
   assetId {{asset?.id}}</p>
-  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed">Confirm Receipt</button>
-  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername">Confirm Sending</button>
+  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
+  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
 
   <!-- Chat component inclusion -->
   <app-messages [recipientTrade]="getChatRecipient()"></app-messages>

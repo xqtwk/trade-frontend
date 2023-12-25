@@ -206,5 +206,8 @@ export class CatalogGameComponent {
       });
     }
   }
+  ngOnDestroy() {
+    this.tradeService.disconnect();
+  }
 
 }
