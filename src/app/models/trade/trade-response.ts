@@ -5,6 +5,7 @@ export interface TradeResponse {
   amount: number;
   senderConfirmed: boolean;
   receiverConfirmed: boolean;
+  sum: number;
   status: TradeStatus;
   assetId: number;
 }

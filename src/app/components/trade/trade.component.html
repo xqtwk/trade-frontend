@@ -1,6 +1,6 @@
 <div *ngIf="currentTrade">
   <!-- Existing trade details -->
-  <p>TradeResponse with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} status {{currentTrade.status}} assetname {{asset?.name}}
+  <p>TradeResponse with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}} status {{currentTrade.status}} assetname {{asset?.name}}
   assetId {{asset?.id}}</p>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed
   && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
