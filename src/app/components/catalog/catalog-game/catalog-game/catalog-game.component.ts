@@ -34,6 +34,8 @@ export class CatalogGameComponent {
   gameName: string | null | undefined;
   assets: AssetDetailsDto[] = [];
   buyerId: number | undefined;
+  selectedAssetType: string | null |undefined;
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -78,7 +80,21 @@ export class CatalogGameComponent {
       error: (error) => console.error("Error fetching user data: ", error)
     });
   }
+  filterAssets(): void {
+    console.log('Selected Asset Type:', this.selectedAssetType);
 
+    if (this.selectedAssetType != null) {
+      // If no asset type is selected, show all assets
+      console.log('Filtering by All Asset Types');
+      if (this.selectedAssetType) {
+        this.loadAssetsForAssetType(this.selectedAssetType);
+      }
+    } else {
+
+    }
+
+    // You can also add sorting logic here if needed
+  }
   ngOnInit(): void {
     this.gameName = this.route.snapshot.paramMap.get('gameName');
     if (this.gameName) {
@@ -112,6 +128,18 @@ export class CatalogGameComponent {
   loadAssetsForGame(gameName: string): void {
     console.log(`Loading assets for game: ${gameName}`);
     this.catalogService.getAssetsByGameName(gameName).subscribe({
+      next: (data) => {
+        this.assets = data;
+        console.log('Assets:', this.assets);
+      },
+      error: (error) => {
+        console.error("Error loading assets:", error);
+      }
+    });
+  }
+  loadAssetsForAssetType(assetTypeName: string): void {
+    console.log(`Loading assets for assetType: ${assetTypeName}`);
+    this.catalogService.getAssetsByAssetTypeName(assetTypeName).subscribe({
       next: (data) => {
         this.assets = data;
         console.log('Assets:', this.assets);
