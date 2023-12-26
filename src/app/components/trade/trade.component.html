@@ -1,32 +1,43 @@
 <div *ngIf="currentTrade" class="flex flex-col sm:flex-row h-full ">
-  <div>
-  <!-- Existing trade details -->
   <div class="sm:w-1/3 w-full">
-  <p *ngIf="!showCancel && showTimer">Time Remaining: {{ remainingTime | millisToMinutesSeconds }}</p>
+    <!-- Existing trade details -->
 
-  <p>Trade with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}} status {{currentTrade.status}} assetname {{asset?.name}}
-  assetId {{asset?.id}}
-  creation time: {{currentTrade.creationTime}}
-    TIPAS: {{asset?.assetType?.type}}
-    PIRKEJAS PATVIRTINO: {{currentTrade.receiverConfirmed}}
-    PARDAVEJAS PATVIRTINO: {{currentTrade.senderConfirmed}}
-  </p>
-  <p>Trade status: {{currentTrade.status}}</p>
+    <p>Trade with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}}
+      status {{currentTrade.status}} assetname {{asset?.name}}
+      assetId {{asset?.id}}
+      creation time: {{currentTrade.creationTime}}
+      TIPAS: {{asset?.assetType?.type}}
+      PIRKEJAS PATVIRTINO: {{currentTrade.receiverConfirmed}}
+      PARDAVEJAS PATVIRTINO: {{currentTrade.senderConfirmed}}
+    </p>
+
+    <p>Trade status: {{currentTrade.status}}</p>
+
+
   </div>
-  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed
-  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
-  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
-  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'ITEM'">Patvirtinti</button>
-  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
-  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'SERVICE'">Priimti</button>
+  <div class="sm:w-1/3">
+    <div><p *ngIf="!showCancel && showTimer" class="text-3xl">{{ remainingTime | millisToMinutesSeconds }}</p></div>
+    <div>
+      <button (click)="confirmTrade(currentTrade.id)" *ngIf="(username === currentTrade.senderUsername
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'ITEM'
+  && !currentTrade.senderConfirmed) ||
+   (username === currentTrade.receiverUsername && currentTrade.senderConfirmed
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED') ||
+   (username === currentTrade.senderUsername
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'SERVICE')">
+        Patvirtinti
+      </button>
 
-  <button *ngIf="(showCancel && username === currentTrade.receiverUsername) || (asset?.assetType?.type === 'SERVICE' && !currentTrade.senderConfirmed)" (click)="cancelTrade(currentTrade.id)">Cancel Trade</button>
+      <button
+        *ngIf="(username === currentTrade.senderUsername && currentTrade.status != 'CANCELLED' && currentTrade.status != 'COMPLETED') ||
+         ((showCancel && username === currentTrade.receiverUsername) || (asset?.assetType?.type === 'SERVICE' && !currentTrade.senderConfirmed))"
+        (click)="cancelTrade(currentTrade.id)">Cancel Trade
+      </button>
 
-  <button *ngIf="username === currentTrade.senderUsername && currentTrade.status != 'CANCELLED' && currentTrade.status != 'COMPLETED'"
-          (click)="cancelTrade(currentTrade.id)">Cancel Trade</button>
+    </div>
   </div>
-<div class="sm:w-2/3">
-  <app-messages [recipientTrade]="getChatRecipient()"></app-messages>
-</div>
+  <div class="sm:w-1/3">
+    <app-messages [recipientTrade]="getChatRecipient()"></app-messages>
+  </div>
 </div>
 

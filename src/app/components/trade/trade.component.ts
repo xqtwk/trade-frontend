@@ -65,6 +65,7 @@ export class TradeComponent implements OnInit{
     this.tradeService.getTradeUpdates().subscribe(tradeUpdate => {
       if (tradeUpdate) {
         this.currentTrade = { ...tradeUpdate };
+        this.initializeTimer();
         console.log('Trade Update:', tradeUpdate);
       }
     });
