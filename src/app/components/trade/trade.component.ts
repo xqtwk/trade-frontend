@@ -58,12 +58,25 @@ export class TradeComponent implements OnInit{
       }
     });
     if (this.username) {
+
       this.tradeService.initializeWebSocketConnection(this.username);
     }else {
       console.error('Username is not available for WebSocket connection');
     }
     this.tradeService.getTradeUpdates().subscribe(tradeUpdate => {
-      if (tradeUpdate) {
+      if (tradeUpdate) {  this.tradeService.getTradeUpdates().subscribe(tradeUpdate => {
+        if (tradeUpdate) {
+          this.currentTrade = { ...tradeUpdate };
+          this.initializeTimer();
+          console.log('Trade Update:', tradeUpdate);
+
+          // Check if the trade status is COMPLETED or CANCELLED
+          if (this.currentTrade.status === "COMPLETED" || this.currentTrade.status === "CANCELLED") {
+            // Disconnect the WebSocket when the trade is completed or cancelled
+            this.tradeService.disconnect();
+          }
+        }
+      });
         this.currentTrade = { ...tradeUpdate };
         this.initializeTimer();
         console.log('Trade Update:', tradeUpdate);

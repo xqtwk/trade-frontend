@@ -1,5 +1,5 @@
 <div class="flex flex-col sm:flex-row h-full">
-  <div class="sm:w-1/3 w-full overflow-y-auto custom-scrollbar">
+  <div class="sm:w-1/3 w-full overflow-y-auto custom-scrollbar border-r border-border">
 
     <div class=" flex flex-row justify-center pt-1" *ngIf="username == asset?.user?.username">
       <button (click)="openUpdatePage()" class="border border-border rounded-md py-2 px-5 mr-5 text-light bg-red">Atnaujinti prekę</button>
@@ -10,11 +10,15 @@
     </div>
     <hr class="line">
 
-    <div class="p-5">
+    <div class="pl-5">
       <div class="p-1 text-2xl"><p>Charakteristika:</p><br></div>
       <div class="p-1 flex flex-row">Žaidimas:<p class="text-light"> {{ asset?.assetType?.game?.name }} </p></div>
       <div class="p-1 flex flex-row">Kategorija:<p class="text-light"> {{ asset?.assetType?.name }} </p></div>
-
+      <div class="p-1 flex flex-row">Tipas:
+        <p class="text-light">
+          {{ asset?.assetType?.type === 'ITEM' ? 'daiktas' : asset?.assetType?.type === 'SERVICE' ? 'paslauga' : '' }}
+        </p>
+      </div>
       <div class="p-1 flex flex-row">
         <p>Kiekis:
         </p>

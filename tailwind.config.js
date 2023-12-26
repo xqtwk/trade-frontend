@@ -13,7 +13,8 @@ module.exports = {
       darklight: 'rgb(38, 40, 54)',
       red: 'rgba(231, 76, 60, 0.8)',
       graytext: 'rgb(164, 166, 180)',
-      evendarker: 'rgb(25, 26, 35)'
+      evendarker: 'rgb(25, 26, 35)',
+      green: '#22c55e'
     }, extend: {
       width: {
         '240px': '240px',
