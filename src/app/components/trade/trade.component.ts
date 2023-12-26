@@ -49,9 +49,7 @@ export class TradeComponent implements OnInit{
                 console.log(asset.assetType);
               });
             }
-            if (this.asset?.assetType?.type === "ITEM") {
               this.initializeTimer();
-            }
           });
         }
       } else {
@@ -77,13 +75,12 @@ export class TradeComponent implements OnInit{
         clearInterval(this.timerInterval);
         this.showTimer = false;
         this.showCancel = false;
-        return; // Exit the function early
+        return;// Exit the function early
       }
         const creationTimeUtc = new Date(this.currentTrade.creationTime + 'Z').getTime();
         const now = new Date().getTime();
         const duration = 30 * 60 * 1000; // 30 minutes in milliseconds
         this.remainingTime = creationTimeUtc + duration - now;
-
         if (this.remainingTime > 0) {
           this.showTimer = true;
           this.timerInterval = setInterval(() => {

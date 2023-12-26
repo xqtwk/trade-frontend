@@ -24,8 +24,6 @@ export class ChatComponent implements OnInit{
   messages: ChatMessage[] = [];
   newMessage: string = '';
   username: string | null = this.userService.getUserNicknameFromToken(); // This should be dynamically set based on the authenticated user
-  isChatListVisible: boolean = false;
-
   constructor(private chatService: ChatService,
               private userService: UserService,
               private route: ActivatedRoute,
@@ -53,6 +51,7 @@ export class ChatComponent implements OnInit{
       }
     });
   }
+
   sendMessage(): void {
     if (this.username && this.recipientUsername) {
       const chatMessage: ChatMessage = {
@@ -90,5 +89,4 @@ export class ChatComponent implements OnInit{
     } catch (err) {}
   }
 
-  protected readonly window = window;
 }

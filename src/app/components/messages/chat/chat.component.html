@@ -1,15 +1,22 @@
-<div class="flex flex-col sm:flex-row h-full sm:px-20 px-4 sm:py-10 py-2">
-  <app-chatlist
+<div class="flex flex-col sm:flex-row h-full" [ngClass]="{'sm:px-20 px-4 sm:py-10 py-2': !recipientTrade}">
+<app-chatlist
     class="sm:w-1/5 w-full bg-evendarker rounded-tl-xl sm:rounded-bl-none"
     *ngIf="!recipientTrade">
   </app-chatlist>
-  <div class="flex flex-col sm:w-3/4 w-full bg-field rounded-tr-xl sm:rounded-tl-none border border-border">
-    <div class="flex items-center bg-evendarker rounded-tr-xl h-12 border-b border-border">
-      <div class="pl-3">
-        <a class="text-light" routerLink="/profile/{{recipientUsername}}">{{recipientUsername}}</a>
+  <div [ngClass]="{'sm:w-3/4 rounded-tr-xl': !recipientTrade}" class="flex sm:w-3/4 flex-col w-full bg-field sm:rounded-tl-none border border-border">
+    <div [ngClass]="{'rounded-tr-xl': !recipientTrade}" class="flex items-center bg-evendarker rounded-tr-xl h-12 border-b border-border">
+      <a class="text-light" routerLink="/profile/{{recipientUsername}}">
+      <div class="pl-3 flex flex-row">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </div>
+        <p class="text-light">{{recipientUsername}}</p>
       </div>
+      </a>
     </div>
-    <ul #messageList class="flex flex-1 flex-col overflow-y-auto p-3 bg-gray-100 custom-scrollbar pb-[20px]">
+    <ul #messageList class=" flex flex-1 flex-col overflow-y-auto p-3 bg-gray-100 custom-scrollbar pb-[20px]">
     <li *ngFor="let message of messages; let i = index"
           class="break-words max-w-3/4"
           [ngClass]="{

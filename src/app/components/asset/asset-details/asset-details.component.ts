@@ -9,7 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {ErrorComponent} from "../../error/error.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ChatComponent} from "../../messages/chat/chat.component";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-asset-details',
@@ -17,7 +17,8 @@ import {NgIf} from "@angular/common";
   imports: [
     FormsModule,
     ChatComponent,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './asset-details.component.html',
   styleUrl: './asset-details.component.css'
@@ -27,6 +28,8 @@ export class AssetDetailsComponent implements OnInit {
   asset: AssetDetailsDto | undefined;
   purchaseAmount: number = 1;
   username = this.userService.getUserNicknameFromToken();
+  sum: number | undefined = 0; // Initialize it to 0
+
   constructor(private assetService: AssetService,
               private userService: UserService,
               private route: ActivatedRoute,
@@ -39,6 +42,7 @@ export class AssetDetailsComponent implements OnInit {
     if (this.username) {
       this.tradeService.initializeWebSocketConnection(this.username);
       this.loadAsset();
+      this.calculateSum(); // Call calculateSum here
       this.tradeService.getTradeErrors().subscribe(errorMessage => {
         if (errorMessage) {
           this.dialog.open(ErrorComponent, {
@@ -60,6 +64,7 @@ export class AssetDetailsComponent implements OnInit {
       this.assetService.getAsset(+assetId).subscribe({
         next: (data) => {
           this.asset = data;
+          this.sum = data.price;
           console.log("Asset loaded:", data);
         },
         error: (error) => console.error("Error loading asset:", error)
@@ -68,7 +73,17 @@ export class AssetDetailsComponent implements OnInit {
       console.log("No assetId found in URL");
     }
   }
-
+  calculateSum() {
+    console.log("lol" + this.asset?.price);
+    if (this.asset && this.purchaseAmount) {
+      this.sum = this.purchaseAmount * this.asset?.price;
+    } else {
+      this.sum = 0; // Set it to 0 if either purchaseAmount or asset is undefined
+    }
+  }
+  updateTotalPrice() {
+    this.calculateSum();
+  }
   initiateTrade(amount: number): void {
     if (this.asset && this.asset.id) {
       const assetId = this.asset.id;

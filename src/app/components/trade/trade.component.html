@@ -1,5 +1,7 @@
-<div *ngIf="currentTrade">
+<div *ngIf="currentTrade" class="flex flex-col sm:flex-row h-full ">
+  <div>
   <!-- Existing trade details -->
+  <div class="sm:w-1/3 w-full">
   <p *ngIf="!showCancel && showTimer">Time Remaining: {{ remainingTime | millisToMinutesSeconds }}</p>
 
   <p>Trade with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}} status {{currentTrade.status}} assetname {{asset?.name}}
@@ -10,6 +12,7 @@
     PARDAVEJAS PATVIRTINO: {{currentTrade.senderConfirmed}}
   </p>
   <p>Trade status: {{currentTrade.status}}</p>
+  </div>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed
   && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
@@ -21,7 +24,9 @@
 
   <button *ngIf="username === currentTrade.senderUsername && currentTrade.status != 'CANCELLED' && currentTrade.status != 'COMPLETED'"
           (click)="cancelTrade(currentTrade.id)">Cancel Trade</button>
-
-
+  </div>
+<div class="sm:w-2/3">
   <app-messages [recipientTrade]="getChatRecipient()"></app-messages>
 </div>
+</div>
+

@@ -26,16 +26,16 @@
 /* Add this to your global styles.css or component-specific styles */
 @media (min-width: 640px) {
   .chatlist-hidden {
-    display: block; !important;/* Show chatlist on larger screens */
+    display: block;/* Show chatlist on larger screens */
   }
 }
 
 .chatlist-visible {
-  display: none; !important; /* Hide chatlist on smaller screens by default */
+  display: none; /* Hide chatlist on smaller screens by default */
 }
 
 @media (max-width: 639px) {
   .chatlist-visible {
-    display: none; !important;/* Show chatlist on smaller screens when toggled */
+    display: none;/* Show chatlist on smaller screens when toggled */
   }
 }
