@@ -19,7 +19,7 @@ export class SalesComponent implements OnInit {
   ngOnInit(): void {
     // Fetch sender's trades from your TradeService
     if (this.username) {
-      this.tradeService.getTradeList(this.username).subscribe(tradeList => {
+      this.tradeService.getTradeList().subscribe(tradeList => {
         console.log("g");
         this.tradeList = tradeList;
         console.log(tradeList);

@@ -21,7 +21,7 @@ export class ChatListComponent implements OnInit {
   chatList: any[] = []; // Replace with appropriate type
   username: string | null = this.userService.getUserNicknameFromToken();
 
-  constructor(private chatService: ChatService, private userService: UserService, private router: Router) {}
+  constructor(public chatService: ChatService, private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     if (this.username) {
@@ -32,8 +32,8 @@ export class ChatListComponent implements OnInit {
 
   }
   selectChatUser(chatUser: string): void {
-    this.selectedChatUser = chatUser;
-    // Add any additional logic you want to execute when a chat user is selected
+    this.chatService.setCurrentActiveChat(chatUser);
+    this.router.navigate(['/chat', chatUser]); // Navigate to the chat component
   }
   navigateToChat(recipientUsername: string): void {
     this.router.navigate(['/chat', recipientUsername]); // Assuming /chat/:username is your chat route

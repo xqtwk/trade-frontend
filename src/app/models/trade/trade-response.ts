@@ -8,6 +8,7 @@ export interface TradeResponse {
   sum: number;
   status: TradeStatus;
   assetId: number;
+  creationTime: string;
 }
 
 export enum TradeStatus {

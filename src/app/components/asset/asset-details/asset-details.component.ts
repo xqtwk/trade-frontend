@@ -39,9 +39,13 @@ export class AssetDetailsComponent implements OnInit {
     if (this.username) {
       this.tradeService.initializeWebSocketConnection(this.username);
       this.loadAsset();
-      if (this.asset?.user.username != this.username) {
-
-      }
+      this.tradeService.getTradeErrors().subscribe(errorMessage => {
+        if (errorMessage) {
+          this.dialog.open(ErrorComponent, {
+            data: { message: errorMessage }
+          });
+        }
+      });
     } else {
       console.error('Username is not available for WebSocket connection');
     }
@@ -100,5 +104,7 @@ export class AssetDetailsComponent implements OnInit {
       this.router.navigate(['/assets/update', this.asset.id]);
     }
   }
-
+  ngOnDestroy() {
+    this.tradeService.disconnect();
+  }
 }

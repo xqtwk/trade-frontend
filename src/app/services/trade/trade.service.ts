@@ -17,8 +17,8 @@ export class TradeService {
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
-  getTradeList(username: string): Observable<TradeResponse[]> {
-    return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list/${username}`);
+  getTradeList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list`);
   }
   getTradeDetails(tradeId: number): Observable<TradeResponse> {
     return this.http.get<TradeResponse>(`${environment.apiUrl}trade/${tradeId}`);
@@ -87,7 +87,9 @@ export class TradeService {
   confirmTrade(tradeId: string, username: string): void {
     this.stompClient.send('/app/trade/confirm', {}, JSON.stringify({ tradeId, username }));
   }
-
+  cancelTrade(tradeId: string, username: string): void {
+    this.stompClient.send('/app/trade/cancel', {}, JSON.stringify({ tradeId, username }));
+  }
   getTradeUpdates(): Observable<any> {
     return this.tradeUpdates.asObservable();
   }

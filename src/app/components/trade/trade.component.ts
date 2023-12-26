@@ -10,11 +10,12 @@ import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
 import {AssetService} from "../../services/asset/asset.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorComponent} from "../error/error.component";
+import {MillisToMinutesSecondsPipe} from "../../pipes/millis-to-minutes-seconds.pipe";
 
 @Component({
   selector: 'app-trade',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChatComponent],
+  imports: [CommonModule, FormsModule, ChatComponent, MillisToMinutesSecondsPipe],
   templateUrl: './trade.component.html',
   styleUrl: './trade.component.css'
 })
@@ -23,6 +24,10 @@ export class TradeComponent implements OnInit{
   currentTrade: any; // Replace 'any' with an appropriate type
   tradeId: number | undefined;
   asset: AssetDetailsDto | undefined
+  remainingTime: number = 0; // Remaining time in milliseconds
+  showCancel: boolean = false; // Whether to show the cancel button
+  showTimer: boolean = false;
+  timerInterval: any; // Timer interval
   constructor(private tradeService: TradeService,
               private userService: UserService,
               private route: ActivatedRoute,
@@ -41,7 +46,11 @@ export class TradeComponent implements OnInit{
             if (this.currentTrade && this.currentTrade.assetId) {
               this.assetService.getAsset(this.currentTrade.assetId).subscribe(asset => {
                 this.asset = asset; // Setting the asset to the current trade
+                console.log(asset.assetType);
               });
+            }
+            if (this.asset?.assetType?.type === "ITEM") {
+              this.initializeTimer();
             }
           });
         }
@@ -62,7 +71,40 @@ export class TradeComponent implements OnInit{
       }
     });
   }
+  initializeTimer() {
+    if (this.currentTrade && this.currentTrade.creationTime) {
+      if (this.currentTrade.status === "CANCELLED" || this.currentTrade.status === "COMPLETED") {
+        clearInterval(this.timerInterval);
+        this.showTimer = false;
+        this.showCancel = false;
+        return; // Exit the function early
+      }
+        const creationTimeUtc = new Date(this.currentTrade.creationTime + 'Z').getTime();
+        const now = new Date().getTime();
+        const duration = 30 * 60 * 1000; // 30 minutes in milliseconds
+        this.remainingTime = creationTimeUtc + duration - now;
 
+        if (this.remainingTime > 0) {
+          this.showTimer = true;
+          this.timerInterval = setInterval(() => {
+            this.remainingTime -= 1000;
+            if (this.remainingTime <= 0) {
+              clearInterval(this.timerInterval);
+              this.showCancel = true;
+              this.remainingTime = 0;
+            }
+          }, 1000);
+        } else {
+          this.showCancel = true;
+        }
+
+    }
+  }
+
+  cancelTrade(tradeId: string): void {
+    if (this.username)
+      this.tradeService.cancelTrade(tradeId, this.username);
+  }
   getChatRecipient(): string | null {
     if (!this.currentTrade || !this.username) return null;
 

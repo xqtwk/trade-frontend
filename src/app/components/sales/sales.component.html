@@ -1,5 +1,6 @@
 <p>sales works!</p>
 <div *ngFor="let trade of tradeList">
-  <p>Trade with {{ trade.receiverUsername }} for {{ trade.amount }}</p>
+  <p>Trade with {{ trade.receiverUsername }} for {{ trade.amount }} status: {{trade.status}}</p>
   <button (click)="openTradeDetails(trade.id.toString())">Open Trade Details</button>
+
 </div>

@@ -1,12 +1,27 @@
 <div *ngIf="currentTrade">
   <!-- Existing trade details -->
-  <p>TradeResponse with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}} status {{currentTrade.status}} assetname {{asset?.name}}
-  assetId {{asset?.id}}</p>
+  <p *ngIf="!showCancel && showTimer">Time Remaining: {{ remainingTime | millisToMinutesSeconds }}</p>
+
+  <p>Trade with {{ currentTrade.senderUsername }} amount {{ currentTrade.amount}} suma {{currentTrade.sum}} status {{currentTrade.status}} assetname {{asset?.name}}
+  assetId {{asset?.id}}
+  creation time: {{currentTrade.creationTime}}
+    TIPAS: {{asset?.assetType?.type}}
+    PIRKEJAS PATVIRTINO: {{currentTrade.receiverConfirmed}}
+    PARDAVEJAS PATVIRTINO: {{currentTrade.senderConfirmed}}
+  </p>
+  <p>Trade status: {{currentTrade.status}}</p>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.receiverUsername && currentTrade.senderConfirmed
   && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
   <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
-  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED'">Patvirtinu</button>
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'ITEM'">Patvirtinti</button>
+  <button (click)="confirmTrade(currentTrade.id)" *ngIf="username === currentTrade.senderUsername
+  && currentTrade.status != 'COMPLETED' && currentTrade.status != 'CANCELLED' && asset?.assetType?.type === 'SERVICE'">Priimti</button>
 
-  <!-- Chat component inclusion -->
+  <button *ngIf="(showCancel && username === currentTrade.receiverUsername) || (asset?.assetType?.type === 'SERVICE' && !currentTrade.senderConfirmed)" (click)="cancelTrade(currentTrade.id)">Cancel Trade</button>
+
+  <button *ngIf="username === currentTrade.senderUsername && currentTrade.status != 'CANCELLED' && currentTrade.status != 'COMPLETED'"
+          (click)="cancelTrade(currentTrade.id)">Cancel Trade</button>
+
+
   <app-messages [recipientTrade]="getChatRecipient()"></app-messages>
 </div>

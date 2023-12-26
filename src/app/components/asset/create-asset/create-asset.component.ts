@@ -70,7 +70,9 @@ export class CreateAssetComponent implements OnInit {
     });
     console.log("assetformvalue ", this.assetForm.value);
     if (this.assetForm.valid) {
-      const newAssetDto: AssetCreationDto = this.assetForm.value;
+      const newAssetDto: AssetCreationDto = { ...this.assetForm.value };
+      delete (newAssetDto as any).unlimited;
+      console.log(newAssetDto);
       this.createAsset(newAssetDto).subscribe(
         (createdAsset: AssetDetailsDto) => {
           console.log("asset created" + createdAsset.name)

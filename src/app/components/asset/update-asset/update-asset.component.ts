@@ -99,6 +99,7 @@ export class UpdateAssetComponent implements OnInit {
   onUpdateSubmit(): void {
     if (this.updateAssetForm.valid && this.assetId !== undefined) {
       const updatedAssetDto: AssetCreationDto = this.updateAssetForm.value;
+      delete (updatedAssetDto as any).unlimited;
       this.assetService.updateAsset(this.assetId, updatedAssetDto).subscribe(
         updatedAsset => {
           const index = this.assets.findIndex(a => a.id === updatedAsset.id);
@@ -107,6 +108,7 @@ export class UpdateAssetComponent implements OnInit {
           }
           console.log("success?");
           this.router.navigate(['/assets/', this.assetId]);
+          this.ngOnDestroy();
         },
         error => {
           this.dialog.open(ErrorComponent, {

@@ -30,7 +30,7 @@ export const routes: Routes = [
   {path: 'orders/sales', component: SalesComponent, canActivate: [authGuard]},
   {path: 'catalog', component: CatalogComponent, canActivate: [authGuard]},
   {path: 'catalog/:gameName', component: CatalogGameComponent, canActivate: [authGuard]},
-  {path: 'messages', component: MessagesComponent, canActivate: [authGuard]},
+  {path: 'chat', component: MessagesComponent, canActivate: [authGuard]},
   {path: 'chat/:username', component: ChatComponent, canActivate: [authGuard]},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
   {path: 'profile/:username', component: ProfileComponent},
