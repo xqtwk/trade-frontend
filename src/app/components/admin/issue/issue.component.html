@@ -1,1 +1,14 @@
-<p>issue works!</p>
+<div *ngFor="let trade of issuedTrades">
+  <div>
+    Trade ID: {{trade.id}}, Sender: {{trade.senderUsername}}, Receiver: {{trade.receiverUsername}}
+    <!-- Buttons for Confirm and Cancel -->
+    <button (click)="confirmTrade(trade.id.toString(), trade.senderUsername)">Confirm Sender</button>
+    <button (click)="cancelTrade(trade.id.toString(), trade.senderUsername)">Cancel Sender</button>
+    <button (click)="confirmTrade(trade.id.toString(), trade.receiverUsername)">Confirm Receiver</button>
+    <button (click)="cancelTrade(trade.id.toString(), trade.receiverUsername)">Cancel Receiver</button>
+
+    <!-- Links to Chat -->
+    <button (click)="navigateToChat(trade.senderUsername)">Chat with Sender</button>
+    <button (click)="navigateToChat(trade.receiverUsername)">Chat with Receiver</button>
+  </div>
+</div>
