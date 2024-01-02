@@ -5,7 +5,7 @@
 </div>
 
 <div *ngIf="isUpdating">
-  <div class="modal">
+  <div class="modal text-dark">
     <form [formGroup]="updateAssetTypeForm" (ngSubmit)="onUpdateSubmit()">
       <input formControlName="name" placeholder="Asset Type Name">
       <select formControlName="gameId">

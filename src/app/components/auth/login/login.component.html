@@ -1,5 +1,7 @@
-<div class="container" *ngIf="!authResponse.mfaEnabled">
-  <form (ngSubmit)="authenticate()">
+<div class="flex justify-center items-center h-full">
+
+<div  *ngIf="!authResponse.mfaEnabled" >
+  <form (ngSubmit)="authenticate()" class="bg-darklight rounded">
     <div class="form-group mb-4">
       <label for="username" class="block text-sm font-medium mb-2">Vartotojo vardas</label>
       <input type="text" id="username" name="username" required class="form-control rounded bg-field border border-border" [(ngModel)]="authRequest.username">
@@ -8,15 +10,21 @@
       <label for="password" class="block text-sm font-medium mb-2">Slaptažodis</label>
       <input type="password" id="password" name="password" required class="form-control rounded bg-field border border-border" [(ngModel)]="authRequest.password">
     </div>
-    <button type="submit" class="border border-border rounded px-0.5 py-1">Prisijungti</button>
-    <a routerLink="/register" class="border border-border rounded px-0.5 py-1">Registracija</a>
+    <button type="submit" class="inline-flex items-center justify-center border border-border rounded px-4 py-2 text-sm font-medium leading-normal">
+      Prisijungti
+    </button>
+
+    <a routerLink="/register" class="ml-3 inline-flex items-center justify-center border border-border rounded px-4 py-2 text-sm font-medium leading-normal">
+      Registracija
+    </a>
   </form>
 </div>
-<div class="container" *ngIf="authResponse.mfaEnabled">
+<div class="container text-center " *ngIf="authResponse.mfaEnabled">
   <h2 class="block text-sm font-medium mb-2">Dviejų faktorių autentifikacija</h2>
-  <div class="form-group mb-4">
+  <div class="form-group mb-4 text-center justify-center">
     <label for="validationCode" class="block text-sm font-medium mb-2">Įveskite 6 skaitmenų 2FA patvirtinimo kodą</label>
-    <input type="text" id="validationCode" name="validationCode" required class="w-full form-control rounded bg-field border border-border" [(ngModel)]="otpCode">
+    <input type="text" id="validationCode" name="validationCode" required class=" form-control rounded bg-field border border-border" [(ngModel)]="otpCode">
   </div>
   <button type="button" (click)="verifyCode()" class="border border-border rounded px-0.5 py-1" [class.button-disabled]="otpCode.length < 6">Verify code</button>
+</div>
 </div>

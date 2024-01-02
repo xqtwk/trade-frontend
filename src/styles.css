@@ -13,6 +13,18 @@
 * {
   color: var(--text);
 }
+::-webkit-scrollbar-thumb {
+  background-color: var(--text); /* or any color of your choice */
+  border-radius: 10px; /* optional, for rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color when hovering over the scrollbar */
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* width of the scrollbar */
+}
 .mat-mdc-dialog-container, .mdc-dialog__surface, .mat-mdc-dialog-container, .mdc-dialog__surface
 {
   background-color: var(--dark) !important;

@@ -23,3 +23,19 @@
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px; /* width of the scrollbar */
 }
+/* Add this to your global styles.css or component-specific styles */
+@media (min-width: 640px) {
+  .chatlist-hidden {
+    display: block;/* Show chatlist on larger screens */
+  }
+}
+
+.chatlist-visible {
+  display: none; /* Hide chatlist on smaller screens by default */
+}
+
+@media (max-width: 639px) {
+  .chatlist-visible {
+    display: none;/* Show chatlist on smaller screens when toggled */
+  }
+}

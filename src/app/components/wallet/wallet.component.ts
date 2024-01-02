@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, Location} from '@angular/common';
 import {MatDialog} from "@angular/material/dialog";
 import {DepositComponent} from "./deposit/deposit.component";
 import {WithdrawComponent} from "./withdraw/withdraw.component";

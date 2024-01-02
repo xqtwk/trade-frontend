@@ -1,5 +1,44 @@
-<p>sales works!</p>
-<div *ngFor="let trade of tradeList">
-  <p>Trade with {{ trade.receiverUsername }} for {{ trade.amount }}</p>
-  <button (click)="openTradeDetails(trade.id.toString())">Open Trade Details</button>
+<div class="custom-scrollbar overflow-y-auto">
+  <div class="p-10 ">
+    <div class="flex flex-row justify-between "> <!-- Use items-baseline here -->
+      <h1 class="text-3xl">Mano pardavimai</h1>
+      <div class="">
+        <a class="border border-border rounded-md py-2 px-5 mr-5 text-light bg-red" routerLink="/assets/new">Sukurti skelbimą</a>
+      </div>
+    </div>
+
+    <div class="rounded-lg">
+      <table class="w-full text-left">
+        <thead class="bg-darklight">
+        <tr>
+          <th class="py-2 pl-4">Pardavėjas</th>
+          <th class="py-2 pl-4">Pirkėjas</th>
+          <th class="py-2 pl-4">Kiekis</th>
+          <th class="py-2 pl-4">Būklė</th>
+          <th class="py-2 pl-4">Suma</th>
+        </tr>
+        </thead>
+        <tbody class="bg-dark">
+        <tr *ngFor="let trade of tradeList" routerLink="/trade/{{trade.id}}"
+            class="cursor-pointer border border-border hovered-row"> <!-- Add the "hovered-row" class here -->
+          <td class="py-2 pl-4 h-10"[ngClass]="trade.senderConfirmed ? 'text-green' : 'text-red'">
+            {{ trade.senderConfirmed ? 'Patvirtino' : 'Nepatvirtino' }}</td>
+          <td class="py-2 pl-4 h-10" [ngClass]="trade.receiverConfirmed ? 'text-green' : 'text-red'">
+            {{ trade.receiverConfirmed ? 'Patvirtino' : 'Nepatvirtino' }}</td>
+          <td class="py-2 pl-4 h-10">{{trade.amount}}</td>
+          <td class="py-2 pl-4 h-10"[ngClass]="{
+    'text-green': trade.status === 'COMPLETED',
+    'text-red': trade.status === 'CANCELLED' || trade.status === 'ISSUE',
+    'text-light': trade.status === 'ACTIVE'
+  }">
+            {{ trade.status === 'COMPLETED' ? 'Įvykdytas' : trade.status === 'CANCELLED' ? 'Atšauktas' : trade.status === 'ISSUE' ? 'Ginčas' : 'Aktyvus' }} </td>
+          <td class="py-2 pl-4 h-10"> {{trade.sum}}</td>
+        </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
 </div>
+

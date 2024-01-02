@@ -3,16 +3,17 @@ import { CommonModule } from '@angular/common';
 import {ChatMessage} from "../../../models/chat/chat-message";
 import {ChatService} from "../../../services/chat/chat.service";
 import {UserService} from "../../../services/user/user.service";
-import {FormsModule} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {BrowserModule} from "@angular/platform-browser";
 import {ChatListComponent} from "../chatlist/chatlist.component";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, window} from "rxjs";
+import {AutoExpandDirective} from "../../../directives/auto-expand.directive";
 
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChatListComponent],
+  imports: [CommonModule, FormsModule, ChatListComponent, AutoExpandDirective, ReactiveFormsModule, RouterLink],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -23,8 +24,10 @@ export class ChatComponent implements OnInit{
   messages: ChatMessage[] = [];
   newMessage: string = '';
   username: string | null = this.userService.getUserNicknameFromToken(); // This should be dynamically set based on the authenticated user
-  constructor(private chatService: ChatService, private userService: UserService, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
-
+  constructor(private chatService: ChatService,
+              private userService: UserService,
+              private route: ActivatedRoute,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -74,6 +77,7 @@ export class ChatComponent implements OnInit{
 
   // DISCONNECT
   ngOnDestroy(): void {
+    this.chatService.setCurrentActiveChat(null);
     this.chatService.disconnect();
   }
   ngAfterViewChecked() {

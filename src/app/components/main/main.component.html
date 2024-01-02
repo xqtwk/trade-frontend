@@ -1,6 +1,8 @@
-<div class="main-content flex flex-col w-full text-center p-5">
-  <div class="flex flex-col h-full">
-    <a routerLink="register">Register</a>
-    <a routerLink="login">Login</a>
+<div class="main-content flex flex-col w-full text-center p-5" *ngIf ="!(authService.isAuthenticatedObservable | async)">
+  <div class="flex flex-col h-full " >
+    <a routerLink="register">Registracija</a>
+    <a routerLink="login">Prisijungimas</a>
   </div>
 </div>
+
+<app-messages *ngIf ="(authService.isAuthenticatedObservable | async)"></app-messages>

@@ -5,8 +5,10 @@ export interface TradeResponse {
   amount: number;
   senderConfirmed: boolean;
   receiverConfirmed: boolean;
-  //status: TradeStatus;
-  // TODO: ADD ASSET
+  sum: number;
+  status: TradeStatus;
+  assetId: number;
+  creationTime: string;
 }
 
 export enum TradeStatus {

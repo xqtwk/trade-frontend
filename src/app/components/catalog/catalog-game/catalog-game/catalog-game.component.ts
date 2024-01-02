@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AssetTypeDetailsDto} from "../../../../models/catalog/asset-type-details-dto";
 import {GameDetailsDto} from "../../../../models/catalog/game-details-dto";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -7,7 +7,7 @@ import {CatalogService} from "../../../../services/catalog/catalog.service";
 import {AssetTypeCreationDto} from "../../../../models/catalog/asset-type-creation-dto";
 import {Observable} from "rxjs";
 import {CommonModule} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AssetDetailsDto} from "../../../../models/asset/asset-details-dto";
 import {TradeService} from "../../../../services/trade/trade.service";
 import {UserService} from "../../../../services/user/user.service";
@@ -19,12 +19,12 @@ import {TradeResponse} from "../../../../models/trade/trade-response";
   selector: 'app-catalog-game',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule, FormsModule
+    CommonModule, ReactiveFormsModule, FormsModule, RouterLink
   ],
   templateUrl: './catalog-game.component.html',
   styleUrl: './catalog-game.component.css'
 })
-export class CatalogGameComponent {
+export class CatalogGameComponent implements OnInit{
   assetTypes: AssetTypeDetailsDto[] = [];
   games: GameDetailsDto[] = [];
   assetTypeForm: FormGroup;
@@ -34,6 +34,8 @@ export class CatalogGameComponent {
   gameName: string | null | undefined;
   assets: AssetDetailsDto[] = [];
   buyerId: number | undefined;
+  selectedAssetType: string | null |undefined;
+
   constructor(
     private adminService: AdminService,
     private fb: FormBuilder,
@@ -53,6 +55,8 @@ export class CatalogGameComponent {
       gameId: [null, Validators.required] // Include gameId in the update form
     });
   }
+
+
   initiateTrade(assetId: number, amount: number): void {
     this.userService.getPublicUserData(this.userService.getUserNicknameFromToken()).subscribe({
       next: (data) => {
@@ -72,21 +76,36 @@ export class CatalogGameComponent {
             }
           });
 
+
           this.router.navigate(['/trade', tradeId]);
         });
       },
       error: (error) => console.error("Error fetching user data: ", error)
     });
   }
-
+  filterAssets(): void {
+    if (this.selectedAssetType && this.selectedAssetType.trim() !== '') {
+      console.log('Filtering assets by Asset Type:', this.selectedAssetType);
+      this.loadAssetsForAssetType(this.selectedAssetType);
+    } else {
+      // This will handle the case where 'All' is selected
+      console.log('Showing all assets');
+      if (typeof this.gameName === 'string') {
+        this.loadAssetsForGame(this.gameName);
+      } else {
+        console.error('Game name is not defined');
+        // Handle this error appropriately
+      }
+    }
+  }
   ngOnInit(): void {
     this.gameName = this.route.snapshot.paramMap.get('gameName');
     if (this.gameName) {
       const username = this.userService.getUserNicknameFromToken();
       if (username) {
         this.tradeService.initializeWebSocketConnection(username);
-        this.loadAssetTypesForGame(this.gameName);
         this.loadAssetsForGame(this.gameName);
+        this.loadAssetTypesForGame(this.gameName);
       } else {
         console.error('Username is not available for WebSocket connection');
       }
@@ -112,6 +131,18 @@ export class CatalogGameComponent {
   loadAssetsForGame(gameName: string): void {
     console.log(`Loading assets for game: ${gameName}`);
     this.catalogService.getAssetsByGameName(gameName).subscribe({
+      next: (data) => {
+        this.assets = data;
+        console.log('Assets:', this.assets);
+      },
+      error: (error) => {
+        console.error("Error loading assets:", error);
+      }
+    });
+  }
+  loadAssetsForAssetType(assetTypeName: string): void {
+    console.log(`Loading assets for assetType: ${assetTypeName}`);
+    this.catalogService.getAssetsByAssetTypeName(assetTypeName).subscribe({
       next: (data) => {
         this.assets = data;
         console.log('Assets:', this.assets);
@@ -205,6 +236,9 @@ export class CatalogGameComponent {
         // Handle errors here
       });
     }
+  }
+  ngOnDestroy() {
+    this.tradeService.disconnect();
   }
 
 }

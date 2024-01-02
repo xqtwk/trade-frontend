@@ -5,31 +5,40 @@
         Piniginė
       </h1>
     </div>
-    <div class="flex flex-row">
-      <div>
-        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" (click)="openDepositDialog()">Papildyti balansą</button>
+    <div class="flex flex-row pb-1">
+      <div class="pr-3">
+        <button class="px-4 py-2 text-light rounded bg-red hover:bg-green" (click)="openDepositDialog()">Papildyti balansą</button>
       </div>
       <div>
-        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" (click)="openWithdrawDialog()">Išvesti balansą</button>
+        <button class="px-4 py-2 text-light rounded bg-red hover:bg-green" (click)="openWithdrawDialog()">Išvesti balansą</button>
       </div>
     </div>
   </header>
-  <hr class="line max-w-full">
+
   <table class="table-auto w-full" *ngIf="userData">
-    <thead>
-    <tr class="bg-gray-200 font-bold">
-      <th class="">Tranzakcijos numeris</th>
-      <th class="">Tipas</th>
-      <th class="">Suma</th>
-      <th class="">Statusas</th>
+    <thead class="bg-darklight h-10 rounded">
+    <tr class="bg-gray-200 text-xl text-left">
+      <th class="text-light">Tipas</th>
+      <th class="text-light">Suma</th>
+      <th class="text-light">Statusas</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let transaction of userData.transactions" class="w-full">
-      <td class="p-2">{{ transaction.operationId }}</td>
-      <td class="p-2">{{ transaction.type }}</td>
+      <td class="p-2">
+        <ng-container *ngIf="transaction.type === 'PAYMENT'; else item">
+          MOKĖJIMAS
+        </ng-container>
+        <ng-template #item>
+          IŠMOKĖJIMAS
+        </ng-template>
+      </td>
       <td class="p-2">{{ transaction.amount }}</td>
-      <td class="p-2">{{ transaction.status }}</td>
+      <td class="p-2">
+        <span *ngIf="transaction.status === 'COMPLETED'" class="text-green">ĮVYKDYTAS</span>
+        <span *ngIf="transaction.status === 'CANCELED'" class="text-red">ATŠAUKTAS</span>
+        <span *ngIf="transaction.status === 'PENDING'">PROCESE</span>
+      </td>
     </tr>
     </tbody>
   </table>

@@ -9,6 +9,7 @@ import {AssetCreationDto} from "../../models/asset/asset-creation-dto";
 import {AssetDetailsDto} from "../../models/asset/asset-details-dto";
 import {AssetTypeCreationDto} from "../../models/catalog/asset-type-creation-dto";
 import {AssetTypeDetailsDto} from "../../models/catalog/asset-type-details-dto";
+import {TradeResponse} from "../../models/trade/trade-response";
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,13 @@ export class AdminService {
   deleteAssetType(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/asset-types/delete/${id}`);
   }
-
-
-
+  getIssuedTrades(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${this.baseUrl}/trade-list/issues`);
+  }
+  confirmTrade(tradeId: string, username: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/trade/confirm`, { tradeId, username });
+  }
+  cancelTrade(tradeId: string, username: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/trade/cancel`, { tradeId, username });
+  }
 }

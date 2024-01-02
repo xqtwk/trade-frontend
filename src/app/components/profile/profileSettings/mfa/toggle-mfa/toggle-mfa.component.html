@@ -1,5 +1,5 @@
+
 <div *ngIf="!mfaEnabled">
-  <h2>Enable Two-Factor Authentication</h2>
   <div *ngIf="qrCodeImageUri" class="qr-code">
     <img [src]="qrCodeImageUri" alt="QR Code">
   </div>
@@ -9,11 +9,12 @@
   <h2>Two-Factor Authentication Enabled</h2>
 </div>
 
-<label for="validationCode">Enter 6-digit 2FA verification code</label>
+<label for="validationCode">Įveskite 2fa kodą</label>
 <input type="text" id="validationCode" name="validationCode" required [(ngModel)]="otpCode">
 
-<button type="button" (click)="toggleMfa()" [disabled]="otpCode.length < 6">
-  {{ mfaEnabled ? 'Disable MFA' : 'Enable MFA' }}
+<button type="button" (click)="toggleMfa()" [disabled]="otpCode.length < 6" class="border border-border rounded">
+  {{ mfaEnabled ? 'Išjungti 2FA' : 'Įjungti 2FA' }}
 </button>
 
 <div *ngIf="message">{{ message }}</div>
+

@@ -1,29 +1,52 @@
-<div class="flex h-full">
-  <app-chatlist class="w-1/3" *ngIf="!recipientTrade"></app-chatlist> <!-- Chat list taking up 1/3 of the width -->
-  <div class="flex flex-col w-2/3 bg-dark"> <!-- Chat content taking up the remaining 2/3 -->
-    <ul #messageList class="flex flex-1 flex-col overflow-y-auto p-3 bg-gray-100 custom-scrollbar mb-[71px]">
-      <li *ngFor="let message of messages"
+<div class="flex flex-col sm:flex-row h-full" [ngClass]="{'sm:px-20 px-4 sm:py-10 py-2': !recipientTrade}">
+<app-chatlist
+    class="sm:w-1/5 w-full bg-evendarker rounded-tl-xl sm:rounded-bl-none border-r border-border"
+    *ngIf="!recipientTrade">
+  </app-chatlist>
+  <div [ngClass]="{'sm:w-3/4 rounded-tr-xl': !recipientTrade}" class="flex sm:w-3/4 flex-col w-full bg-field sm:rounded-tl-none border border-border border-l-0">
+    <div [ngClass]="{'rounded-tr-xl': !recipientTrade}" class="flex items-center bg-evendarker rounded-tr-xl h-12 border-b border-border">
+      <a class="text-light" routerLink="/profile/{{recipientUsername}}">
+      <div class="pl-3 flex flex-row">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </div>
+        <p class="text-light">{{recipientUsername}}</p>
+      </div>
+      </a>
+    </div>
+    <ul #messageList class=" flex flex-1 flex-col overflow-y-auto p-3 bg-gray-100 custom-scrollbar pb-[20px]">
+    <li *ngFor="let message of messages; let i = index"
           class="break-words max-w-3/4"
           [ngClass]="{
-              'text-left bg-white': message.senderUsername === username,
-              'text-right bg-green-200': message.senderUsername !== username
-            }">
-        <div class="">
-        <div class="p-2">
-      <span class="font-semibold">
-        {{ message.senderUsername === username ? username : message.senderUsername }}:
-      </span>
-          {{ message.content }}</div></div>
+          'text-left bg-white': message.senderUsername === username,
+          'text-right bg-green-200': message.senderUsername !== username
+        }">
+        <div class="px-2 py-0">
+          <div *ngIf="i === 0 || messages[i-1].senderUsername !== message.senderUsername">
+            <p>
+              {{ message.senderUsername === username ? username : message.senderUsername }}:
+            </p>
+          </div>
+          <p class="text-light">
+            {{ message.content }}
+          </p>
+        </div>
       </li>
     </ul>
 
     <!-- Input and Send Button -->
-    <div class="p-3 bg-gray-200">
-      <div class="flex space-x-2">
-        <input (keyup.enter)="sendMessage()" [(ngModel)]="newMessage" type="text" placeholder="Įveskite tekstą"
-               class="flex-grow p-2 border border-gray-300 rounded w-full bg-field border-border">
-        <button (click)="sendMessage()" class="px-4 bg-green-500 text-white rounded hover:bg-green-600 border border-border py-1">
-          Siųsti
+    <div class="p-3 bg-evendarker border border-border">
+      <div class="flex space-x-2 flex-grow bg-field rounded-tr-xl sm:rounded-tl-none">
+      <!--<input (keyup.enter)="sendMessage()" [(ngModel)]="newMessage" type="text" placeholder="Įveskite tekstą"
+               class="flex-grow p-2 border border-gray-300 rounded w-full bg-field border-border">-->
+        <textarea (keyup.enter)="sendMessage()" [(ngModel)]="newMessage" type="text" placeholder="Įveskite tekstą" appAutoExpand rows="1"
+                  class="w-full resize-none overflow-hidden px-3 py-2 rounded bg-field border border-border"></textarea>
+        <button (click)="sendMessage()" class="px-4 bg-green-500 text-white rounded border border-border py-1 hover:bg-dark">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+          </svg>
         </button>
       </div>
     </div>

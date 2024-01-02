@@ -1,8 +1,53 @@
 <mat-dialog-content>
+  <form [formGroup]="payoutForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-row justify-between">
+      <label for="amount">Amount<span class="text-red">*</span>:</label>
+      <input id="amount" formControlName="amount" type="number" class="bg-darklight border border-border rounded" required>
+    </div>
+    <div class="flex flex-row justify-between pt-1">
+      <label for="beneficiaryFirstName">Beneficiary First Name<span class="text-red">*</span>:</label>
+      <input id="beneficiaryFirstName" formControlName="beneficiaryFirstName" class="bg-darklight border border-border rounded" type="text" required>
+    </div>
+    <div class="flex flex-row justify-between pt-1">
+      <label for="beneficiaryLastName" >Beneficiary Last Name<span class="text-red">*</span>:</label>
+      <input id="beneficiaryLastName" formControlName="beneficiaryLastName" class="bg-darklight border border-border rounded" type="text" required>
+    </div>
+    <div class="flex flex-row justify-between pt-1">
+      <label for="beneficiaryIban">IBAN<span class="text-red">*</span>:</label>
+      <input id="beneficiaryIban" formControlName="beneficiaryIban" class="bg-darklight border border-border rounded" type="text" required>
+    </div>
+    <mat-dialog-actions>
+      <button type="submit" [disabled]="!payoutForm.valid" class="">Submit Payout</button>
+    </mat-dialog-actions>
+  </form>
+  <!--<form [formGroup]="payoutForm" (ngSubmit)="onSubmit()">
+    <p>Pinigų išvedimo forma</p>
+    <div class="max-w-xs">
 
 
-      <mat-dialog-actions>
-        <button type="submit">Išvesti</button>
-      </mat-dialog-actions>
+      <div>
+        <input formControlName="cardNumber" placeholder="Kortelės numeris"  class="pb-1" />
+      </div>
+      <div>
+        <input formControlName="cardExpirationMonth" placeholder="MM" class="w-8 pr-1"/>
+        <input formControlName="cardExpirationYear" placeholder="YY" class="w-8"/>
+      </div>
+      <div>
+        <input formControlName="cardCvv" placeholder="CVV" />
+      </div>
+      <div>
+        <input formControlName="firstName" placeholder="Vardas" />
+        <input formControlName="lastName" placeholder="Pavardė" />
+      </div>
 
+
+
+    <div class="pt-2">
+      <input type="number" formControlName="amount" placeholder="Pinigų skaičius" />
+    </div>
+    </div>
+    <mat-dialog-actions>
+      <button type="submit">Išvesti</button>
+    </mat-dialog-actions>
+  </form> -->
 </mat-dialog-content>

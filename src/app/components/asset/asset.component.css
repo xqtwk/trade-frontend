@@ -1,0 +1,3 @@
+.hovered-row:hover {
+  background-color: var(--gray);
+}

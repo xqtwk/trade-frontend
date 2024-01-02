@@ -13,11 +13,18 @@ import {TradeResponse} from "../../models/trade/trade-response";
 export class TradeService {
   private stompClient: any;
   private tradeUpdates: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private tradeErrors: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
-  getTradeList(username: string): Observable<TradeResponse[]> {
-    return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list/${username}`);
+  getTradeList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list`);
+  }
+  getPurchasesList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}purchases`);
+  }
+  getSalesList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}sales`);
   }
   getTradeDetails(tradeId: number): Observable<TradeResponse> {
     return this.http.get<TradeResponse>(`${environment.apiUrl}trade/${tradeId}`);
@@ -32,6 +39,7 @@ export class TradeService {
       console.log('Connected to WS');
       //this.subscribeToChat(username);
       this.subscribeToTrade(username);
+      this.subscribeToTradeErrors(username);
     }, (error: any) => {
       console.log('Error in WS connection:', error);
     });
@@ -42,8 +50,11 @@ export class TradeService {
     const tradeDestination = `/user/${username}/queue/trade`;
 
     this.stompClient.subscribe(tradeDestination, (message: any) => {
+      console.log("Received trade update:", message); // Debugging log
       if (message.body) {
-        this.tradeUpdates.next(JSON.parse(message.body));
+        const tradeUpdate = JSON.parse(message.body);
+        console.log("Parsed trade update:", tradeUpdate); // Debugging log
+        this.tradeUpdates.next(tradeUpdate);
       }
     });
   }
@@ -59,24 +70,42 @@ export class TradeService {
       // Subscribe to trade initiation response from the server
       this.stompClient.subscribe(`/user/${this.userService.getUserNicknameFromToken()}/queue/trade-initiation`, (message: any) => {
         if (message.body) {
-          const tradeId = JSON.parse(message.body).tradeId; // Extract the trade ID from the response
+          // Parse the received message body
+          const tradeId = message.body.replace(/"/g, '');
           observer.next(tradeId);
           observer.complete();
         }
       });
     });
   }
+  private subscribeToTradeErrors(username: string): void {
+    const errorDestination = `/user/${username}/queue/errors`;
 
+    this.stompClient.subscribe(errorDestination, (message: any) => {
+      if (message.body) {
+        this.tradeErrors.next(message.body);
+      }
+    });
+  }
+  getTradeErrors(): Observable<string> {
+    return this.tradeErrors.asObservable();
+  }
   confirmTrade(tradeId: string, username: string): void {
     this.stompClient.send('/app/trade/confirm', {}, JSON.stringify({ tradeId, username }));
   }
-
+  cancelTrade(tradeId: string, username: string): void {
+    this.stompClient.send('/app/trade/cancel', {}, JSON.stringify({ tradeId, username }));
+  }
+  issueTrade(tradeId: string, username: string): void {
+    this.stompClient.send('/app/trade/issue', {}, JSON.stringify({ tradeId, username }));
+  }
   getTradeUpdates(): Observable<any> {
     return this.tradeUpdates.asObservable();
   }
 
   disconnect(): void {
     if (this.stompClient !== null) {
+      this.tradeErrors = new BehaviorSubject<string>('');
       this.stompClient.disconnect();
     }
   }

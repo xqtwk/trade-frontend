@@ -1,6 +1,6 @@
   <div class="mx-10 2xl:mx-40 pt-10">
 <header>
-  <h1>
+  <h1 class="text-4xl">
     Nustatymai
   </h1>
 </header>
@@ -11,21 +11,17 @@
       <hr class="line">
       <div>
         Slaptažodis
-        <button mat-button (click)="openChangePasswordDialog()">Keisti</button>
+        <button  (click)="openChangePasswordDialog()" class="border border-border rounded px-3 py-1 mr-5 self-end">Keisti</button>
       </div>
+      <hr class="line">
       <div>
         Dviejų faktorių autentifikacija
-        <button mat-button (click)="openMfaToggleDialog()" *ngIf="mfaEnabled; else mfaDisabled">Išjungti</button>
+        <button (click)="openMfaToggleDialog()" *ngIf="mfaEnabled; else mfaDisabled" class="border border-border rounded px-3 py-1 mr-5">Išjungti</button>
         <ng-template #mfaDisabled >
-          <button mat-button (click)="openMfaToggleDialog()">Įjungti</button>
+          <button (click)="openMfaToggleDialog()" class="border border-border rounded px-3 py-1 mr-5">Įjungti</button>
         </ng-template>
       </div>
     </div>
-    <div>
-      <ul>
-        <li><span>Profilis</span></li>
-        <li><span>Saugumas</span></li>
-      </ul>
-    </div>
+
   </div>
 </div>

@@ -1,12 +1,9 @@
-<div>Pasirinkite čat'ą:</div>
-<ul>
-    <li *ngFor="let chatUser of chatList"
-        [ngClass]="{
-        'selected-chat': chatUser === selectedChatUser
-        }"
-        (click)=" selectChatUser(chatUser); navigateToChat(chatUser)"
-        >
-        Chat with {{ chatUser }}
-    </li>
+<ul class="overflow-y-auto custom-scrollbar">
+  <li *ngFor="let chatUser of chatList; let isFirst = first"
+      [ngClass]="{'selected-chat': chatService.currentActiveChat === chatUser,
+      'first-selected-chat': isFirst}"
+      (click)="selectChatUser(chatUser)"
+      class="h-16 border-b border-border">
+    <p class="text-light pl-5 pt-5">{{ chatUser }}</p>
+  </li>
 </ul>
-

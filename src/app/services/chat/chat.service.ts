@@ -76,14 +76,19 @@ export class ChatService {
   }
 
   // Call this method when a chat is opened/viewed
-  markChatAsViewed(chatId: string): void {
-    const currentMap = this.newMessagesMap.value;
-    if (currentMap.has(chatId)) {
-      currentMap.set(chatId, false);
+  markChatAsViewed(chatId: string | null): void {
+    if (chatId) {
+      const currentMap = this.newMessagesMap.value;
+      if (currentMap.has(chatId)) {
+        currentMap.set(chatId, false);
+      }
+      this.newMessagesMap.next(currentMap);
     }
-    this.newMessagesMap.next(currentMap);
   }
-
+  setCurrentActiveChat(chatId: string | null): void {
+    this.currentActiveChat = chatId;
+    this.markChatAsViewed(chatId);
+  }
   getNewMessagesMap(): Observable<Map<string, boolean>> {
     return this.newMessagesMap.asObservable();
   }
