@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AssetTypeDetailsDto} from "../../../models/catalog/asset-type-details-dto";
 import {AssetTypeCreationDto, AssetTypeType} from "../../../models/catalog/asset-type-creation-dto";
@@ -19,7 +19,7 @@ import {AssetDetailsDto} from "../../../models/asset/asset-details-dto";
   templateUrl: './asset-type.component.html',
   styleUrl: './asset-type.component.css'
 })
-export class AssetTypeComponent {
+export class AssetTypeComponent implements OnInit{
   assetTypes: AssetTypeDetailsDto[] = [];
   games: GameDetailsDto[] = [];
   assetTypeForm: FormGroup;
@@ -91,7 +91,8 @@ export class AssetTypeComponent {
     this.updatingAssetTypeId = assetType.id;
     this.updateAssetTypeForm.setValue({
       name: assetType.name,
-      gameId: assetType.game.id // Set the gameId for the update form
+      gameId: assetType.game.id, // Set the gameId for the update form
+      type: assetType.type
     });
   }
 
