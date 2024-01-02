@@ -7,11 +7,14 @@
 <div *ngIf="isUpdating">
   <div class="modal text-dark">
     <form [formGroup]="updateAssetTypeForm" (ngSubmit)="onUpdateSubmit()">
-      <input formControlName="name" placeholder="Asset Type Name">
+      <input formControlName="name" placeholder="Prekės tipo pavadinimas">
       <select formControlName="gameId">
         <option *ngFor="let game of games" [ngValue]="game.id">{{ game.name }}</option>
       </select>
-      <button type="submit">Update Asset Type</button>
+      <select formControlName="type">
+        <option *ngFor="let assetType of assetTypeTypes" [value]="assetType.value">{{ assetType.label }}</option>
+      </select>
+      <button type="submit">Update</button>
       <button (click)="closeUpdateForm()">Close</button>
     </form>
   </div>
