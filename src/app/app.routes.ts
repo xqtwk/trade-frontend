@@ -23,6 +23,7 @@ import {CreateAssetComponent} from "./components/asset/create-asset/create-asset
 import {UpdateAssetComponent} from "./components/asset/update-asset/update-asset.component";
 import {AssetDetailsComponent} from "./components/asset/asset-details/asset-details.component";
 import {assetOwnerGuard} from "./services/guard/asset-owner.guard";
+import {IssueComponent} from "./components/admin/issue/issue.component";
 
 export const routes: Routes = [
   {path: '', component: MainComponent},
@@ -33,7 +34,7 @@ export const routes: Routes = [
   {path: 'chat', component: MessagesComponent, canActivate: [authGuard]},
   {path: 'chat/:username', component: ChatComponent, canActivate: [authGuard]},
   {path: 'profile/settings', component: ProfileSettingsComponent, canActivate: [authGuard]},
-  {path: 'profile/:username', component: ProfileComponent},
+//  {path: 'profile/:username', component: ProfileComponent},
   {path: 'register', component: RegistrationComponent, canActivate: [unauthGuard]},
   {path: 'login', component: LoginComponent, canActivate: [unauthGuard]},
   {path: 'wallet', component: WalletComponent, canActivate: [authGuard]},
@@ -41,6 +42,7 @@ export const routes: Routes = [
   {path: 'admin/games', component: GameComponent, canActivate: [authGuard,adminGuard]},
   {path: 'admin/assets', component: AssetComponent, canActivate: [authGuard,adminGuard]},
   {path: 'admin/asset-types', component: AssetTypeComponent, canActivate: [authGuard,adminGuard]},
+  //{path: 'admin/issues', component: IssueComponent, canActivate: [authGuard,adminGuard]},
   {path: 'trade/:tradeId', component: TradeComponent, canActivate: [authGuard] },
   {path: 'assets', component: AssetComponent, canActivate: [authGuard] },
   {path: 'assets/new', component: CreateAssetComponent, canActivate: [authGuard] },

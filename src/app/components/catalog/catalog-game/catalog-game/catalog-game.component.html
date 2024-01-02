@@ -1,15 +1,9 @@
-<div>Žaidimas: {{gameName}}</div>
-<div>Kategorjios:</div>
-<div *ngFor="let assetType of assetTypes">
-  <a>
-    {{ assetType.id }} {{ assetType.name }}
-  </a>
-</div>
+<div class="pl-1"><p class="text-4xl">Žaidimas:</p> <p class="text-light text-2xl">{{gameName}}</p></div>
 
-<div class="mb-2">
-  <label for="assetTypeFilter">Filter by Asset Type:</label>
-  <select id="assetTypeFilter" [(ngModel)]="selectedAssetType" (change)="filterAssets()">
-    <option value="">All</option>
+<label class="pl-1" for="assetTypeFilter" >Filtras pagal prekės tipą:</label>
+<div class="mb-2 pl-2">
+  <select id="assetTypeFilter" [(ngModel)]="selectedAssetType" (change)="filterAssets()" class="bg-dark border border-border">
+    <option value="">Visi</option>
     <option *ngFor="let assetType of assetTypes" [value]="assetType.name">{{ assetType.name }}</option>
   </select>
 </div>

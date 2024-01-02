@@ -47,7 +47,9 @@ export class DepositComponent implements OnInit {
         const depositRequest: DepositRequest = {
           username: username,
           country: country,
-          amount: parseFloat(amount)
+          amount: parseFloat(amount),
+          merchantReferenceId: this.userId,
+          description: username
         };
 
         this.rapydService.createCheckout(depositRequest).subscribe(

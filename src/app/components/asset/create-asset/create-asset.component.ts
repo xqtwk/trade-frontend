@@ -12,6 +12,7 @@ import {UserService} from "../../../services/user/user.service";
 import {UserPrivateDataResponse} from "../../../models/user-private-data-response";
 import {CatalogService} from "../../../services/catalog/catalog.service";
 import {AutoExpandDirective} from "../../../directives/auto-expand.directive";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-asset',
@@ -31,7 +32,8 @@ export class CreateAssetComponent implements OnInit {
     private fb: FormBuilder,
     private assetService: AssetService,
     private userService: UserService,
-    private catalogService: CatalogService
+    private catalogService: CatalogService,
+    private router: Router
   ) {
     this.assetForm = this.fb.group({
       gameId: ['', Validators.required],
@@ -75,7 +77,8 @@ export class CreateAssetComponent implements OnInit {
       console.log(newAssetDto);
       this.createAsset(newAssetDto).subscribe(
         (createdAsset: AssetDetailsDto) => {
-          console.log("asset created" + createdAsset.name)
+          console.log("asset created" + createdAsset.id)
+          this.router.navigate(['assets', createdAsset.id]);
         },
         (error) => {
           console.log("something happened");

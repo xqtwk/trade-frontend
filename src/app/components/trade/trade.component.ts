@@ -116,6 +116,12 @@ export class TradeComponent implements OnInit{
     if (this.username)
       this.tradeService.cancelTrade(tradeId, this.username);
   }
+
+  issueTrade(tradeId: string): void {
+    console.log("fired");
+    if (this.username)
+      this.tradeService.issueTrade(tradeId, this.username);
+  }
   getChatRecipient(): string | null {
     if (!this.currentTrade || !this.username) return null;
 

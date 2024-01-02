@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AssetTypeDetailsDto} from "../../../../models/catalog/asset-type-details-dto";
 import {GameDetailsDto} from "../../../../models/catalog/game-details-dto";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -24,7 +24,7 @@ import {TradeResponse} from "../../../../models/trade/trade-response";
   templateUrl: './catalog-game.component.html',
   styleUrl: './catalog-game.component.css'
 })
-export class CatalogGameComponent {
+export class CatalogGameComponent implements OnInit{
   assetTypes: AssetTypeDetailsDto[] = [];
   games: GameDetailsDto[] = [];
   assetTypeForm: FormGroup;
@@ -55,6 +55,8 @@ export class CatalogGameComponent {
       gameId: [null, Validators.required] // Include gameId in the update form
     });
   }
+
+
   initiateTrade(assetId: number, amount: number): void {
     this.userService.getPublicUserData(this.userService.getUserNicknameFromToken()).subscribe({
       next: (data) => {
@@ -74,6 +76,7 @@ export class CatalogGameComponent {
             }
           });
 
+
           this.router.navigate(['/trade', tradeId]);
         });
       },
@@ -81,19 +84,19 @@ export class CatalogGameComponent {
     });
   }
   filterAssets(): void {
-    console.log('Selected Asset Type:', this.selectedAssetType);
-
-    if (this.selectedAssetType != null) {
-      // If no asset type is selected, show all assets
-      console.log('Filtering by All Asset Types');
-      if (this.selectedAssetType) {
-        this.loadAssetsForAssetType(this.selectedAssetType);
-      }
+    if (this.selectedAssetType && this.selectedAssetType.trim() !== '') {
+      console.log('Filtering assets by Asset Type:', this.selectedAssetType);
+      this.loadAssetsForAssetType(this.selectedAssetType);
     } else {
-
+      // This will handle the case where 'All' is selected
+      console.log('Showing all assets');
+      if (typeof this.gameName === 'string') {
+        this.loadAssetsForGame(this.gameName);
+      } else {
+        console.error('Game name is not defined');
+        // Handle this error appropriately
+      }
     }
-
-    // You can also add sorting logic here if needed
   }
   ngOnInit(): void {
     this.gameName = this.route.snapshot.paramMap.get('gameName');
@@ -101,8 +104,8 @@ export class CatalogGameComponent {
       const username = this.userService.getUserNicknameFromToken();
       if (username) {
         this.tradeService.initializeWebSocketConnection(username);
-        this.loadAssetTypesForGame(this.gameName);
         this.loadAssetsForGame(this.gameName);
+        this.loadAssetTypesForGame(this.gameName);
       } else {
         console.error('Username is not available for WebSocket connection');
       }

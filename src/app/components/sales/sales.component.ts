@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {TradeService} from "../../services/trade/trade.service";
 import {UserService} from "../../services/user/user.service";
 import {TradeResponse} from "../../models/trade/trade-response";
@@ -8,7 +8,7 @@ import {TradeResponse} from "../../models/trade/trade-response";
 @Component({
   selector: 'app-sales',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
 })
@@ -19,7 +19,7 @@ export class SalesComponent implements OnInit {
   ngOnInit(): void {
     // Fetch sender's trades from your TradeService
     if (this.username) {
-      this.tradeService.getTradeList().subscribe(tradeList => {
+      this.tradeService.getSalesList().subscribe(tradeList => {
         console.log("g");
         this.tradeList = tradeList;
         console.log(tradeList);

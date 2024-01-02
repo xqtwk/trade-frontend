@@ -20,6 +20,12 @@ export class TradeService {
   getTradeList(): Observable<TradeResponse[]> {
     return this.http.get<TradeResponse[]>(`${environment.apiUrl}trade-list`);
   }
+  getPurchasesList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}purchases`);
+  }
+  getSalesList(): Observable<TradeResponse[]> {
+    return this.http.get<TradeResponse[]>(`${environment.apiUrl}sales`);
+  }
   getTradeDetails(tradeId: number): Observable<TradeResponse> {
     return this.http.get<TradeResponse>(`${environment.apiUrl}trade/${tradeId}`);
   }
@@ -89,6 +95,9 @@ export class TradeService {
   }
   cancelTrade(tradeId: string, username: string): void {
     this.stompClient.send('/app/trade/cancel', {}, JSON.stringify({ tradeId, username }));
+  }
+  issueTrade(tradeId: string, username: string): void {
+    this.stompClient.send('/app/trade/issue', {}, JSON.stringify({ tradeId, username }));
   }
   getTradeUpdates(): Observable<any> {
     return this.tradeUpdates.asObservable();

@@ -1,7 +1,6 @@
 export interface Transaction{
   id: number;
   amount: number;
-  operationId: string;
   type: TransactionType;
   status: TransactionStatus;
 }
