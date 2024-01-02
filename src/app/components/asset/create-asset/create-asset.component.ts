@@ -54,14 +54,20 @@ export class CreateAssetComponent implements OnInit {
     this.loadGames();
     this.loadAssetTypes(); // Assuming you have a method to load asset types
     this.assetForm.get('unlimited')?.valueChanges.subscribe((isChecked) => {
-      const amountControl = this.assetForm.get('amount');
-      if (isChecked) {
-        amountControl?.disable();
-        amountControl?.setValue(null);
-      } else {
-        amountControl?.enable();
-      }
+      this.toggleAmountInput(isChecked);
     });
+    this.toggleAmountInput(this.assetForm.get('unlimited')?.value);
+  }
+
+
+  toggleAmountInput(isChecked: boolean): void {
+    const amountControl = this.assetForm.get('amount');
+    if (isChecked) {
+      amountControl?.disable();
+      amountControl?.setValue(null);
+    } else {
+      amountControl?.enable();
+    }
   }
   private createAsset(dto: AssetCreationDto): Observable<AssetDetailsDto> {
     return this.assetService.createAsset(dto);
