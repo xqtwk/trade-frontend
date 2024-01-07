@@ -84,9 +84,9 @@ export class CatalogGameComponent implements OnInit{
     });
   }
   filterAssets(): void {
-    if (this.selectedAssetType && this.selectedAssetType.trim() !== '') {
+    if (this.selectedAssetType && this.gameName && this.selectedAssetType.trim() !== '') {
       console.log('Filtering assets by Asset Type:', this.selectedAssetType);
-      this.loadAssetsForAssetType(this.selectedAssetType);
+      this.loadAssetsForGameAndAssetType(this.gameName, this.selectedAssetType);
     } else {
       // This will handle the case where 'All' is selected
       console.log('Showing all assets');
@@ -140,15 +140,16 @@ export class CatalogGameComponent implements OnInit{
       }
     });
   }
-  loadAssetsForAssetType(assetTypeName: string): void {
-    console.log(`Loading assets for assetType: ${assetTypeName}`);
-    this.catalogService.getAssetsByAssetTypeName(assetTypeName).subscribe({
+
+  loadAssetsForGameAndAssetType(gameName: string, assetTypeName: string): void {
+    console.log(`Loading assets for game: ${gameName} and assetType: ${assetTypeName}`);
+    this.catalogService.getAssetsByGameNameAndAssetTypeName(gameName, assetTypeName).subscribe({
       next: (data) => {
         this.assets = data;
-        console.log('Assets:', this.assets);
+        console.log('Filtered Assets:', this.assets);
       },
       error: (error) => {
-        console.error("Error loading assets:", error);
+        console.error("Error loading filtered assets:", error);
       }
     });
   }

@@ -44,7 +44,7 @@ export class CatalogService {
   getAssetsByGameName(gameName: string): Observable<AssetDetailsDto[]> {
     return this.http.get<AssetDetailsDto[]>(`${this.baseUrl}assets/game/${gameName}`);
   }
-  getAssetsByAssetTypeName(assetTypeName: string): Observable<AssetDetailsDto[]> {
-    return this.http.get<AssetDetailsDto[]>(`${this.baseUrl}assets/game/assetType/${assetTypeName}`);
+  getAssetsByGameNameAndAssetTypeName(gameName: string, assetTypeName: string): Observable<AssetDetailsDto[]> {
+    return this.http.get<AssetDetailsDto[]>(`${this.baseUrl}assets/game/${gameName}/assetType/${assetTypeName}`);
   }
 }
